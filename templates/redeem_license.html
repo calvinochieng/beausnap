@@ -1,0 +1,56 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block title %}Redeem License - BeauSnap{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+  <div class="flex flex-col items-center gap-8">
+    <div class="flex flex-col gap-4 text-center max-w-3xl">
+      <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter">Redeem Your License</h1>
+      <p class="text-white/70 text-lg md:text-xl leading-relaxed">
+        Enter your license key to link it to your account and unlock premium features.
+      </p>
+    </div>
+
+    <div class="w-full max-w-md">
+      <div class="bg-[#1c1c27] rounded-xl border border-white/10 p-6 shadow-lg">
+        <form method="POST" class="space-y-6">
+          {% csrf_token %}
+
+          <div class="space-y-2">
+            <label for="license_key" class="block text-sm font-medium text-gray-300">
+              <i class="fas fa-key mr-2"></i> License Key
+            </label>
+            <input
+              type="text"
+              name="license_key"
+              id="license_key"
+              placeholder="Enter your license key"
+              required
+              class="w-full h-12 pl-4 pr-4 rounded-lg bg-[#282839] border border-[#3b3b54] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full h-12 rounded-lg bg-[var(--primary-color)] hover:bg-opacity-90 text-white font-bold text-base transition-colors shadow-lg hover:shadow-xl"
+          >
+            <i class="fas fa-unlock mr-2"></i> Redeem License
+          </button>
+        </form>
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-400">
+            Don't have a license key?
+            <a href="{% url 'checkout_one_time' %}" class="text-[var(--primary-color)] hover:underline">
+              Purchase one here
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

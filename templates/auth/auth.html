@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Auth {% endblock %} - BeauSnap</title>
+
+    <!-- Fonts -->
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet" />
+    {% load static %}
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="{% static "css/custom.css" %}">
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+    :root {
+        --primary-color: #1313ec;
+    }
+    .input-focus-effect:focus ~ .focus-border::after {
+        width: 100%;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+    </style>  
+    <style>
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #1a1a24;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+        border: 1px solid #282839;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #282839 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+    </style>
+
+    <!-- PostHog Analytics -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+          api_host: 'https://us.i.posthog.com',
+          defaults: '2025-05-24',
+          person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+      })
+    </script>
+</head>
+<body class="bg-[#111118] text-white" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header -->
+<!-- HEADER -->
+<header class="flex items-center justify-between border-b border-solid border-b-[#282839] px-6 py-3 md:px-10 lg:px-16">
+  <!-- Logo & Brand -->
+    <a href="/" class="flex items-center gap-3 text-white">
+        <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+        </div>
+        <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+<!-- Auth Buttons -->
+  <div class="flex items-center gap-3">
+    <!-- Sign Up Button -->
+    <a href="{% url 'signup' %}"
+       class="inline-flex items-center justify-center gap-2 min-w-[100px] max-w-36 h-10 rounded-lg
+               font-semibold text-sm text-gray-300 bg-[#282839] border border-[#3b3b54]
+               hover:bg-[#323248] hover:text-white hover:border-[#4d4d70]
+               transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-1 focus:ring-offset-[#111118]"
+       aria-label="Create a new account">
+       <i class="fas fa-user-plus text-xs md:text-sm opacity-80"></i>
+       <span>Sign Up</span>
+    </a>
+
+    <!-- Sign In Button -->
+    <a href="{% url 'signin' %}"
+        class="inline-flex items-center justify-center gap-2 min-w-[100px] max-w-36 h-10 px-4 rounded-lg 
+                font-bold text-sm text-white bg-[var(--primary-color)] 
+                hover:bg-opacity-90 active:bg-opacity-100 active:scale-[0.98] 
+                transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-1 focus:ring-offset-[#111118]"
+        aria-label="Sign into your account">
+        <i class="fas fa-sign-in-alt text-xs md:text-sm"></i>
+        <span>Sign In</span>
+    </a>
+  </div>
+</header>
+
+  <!-- Main Content -->
+  <main class="flex flex-1 items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
+    {% block content %}{% endblock content %}
+  </main>
+
+  <!-- Footer (Optional) -->
+  <footer class="py-6 px-6 text-center text-xs text-gray-600 border-t border-[#282839]">
+    <div class="flex flex-col items-center gap-2">
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="{% url 'terms' %}" class="text-gray-500 hover:text-[var(--primary-color)] transition-colors">Terms of Service</a>
+        <span class="text-gray-600">|</span>
+        <a href="{% url 'privacy' %}" class="text-gray-500 hover:text-[var(--primary-color)] transition-colors">Privacy Policy</a>
+        <span class="text-gray-600">|</span>
+        <a href="{% url 'refund' %}" class="text-gray-500 hover:text-[var(--primary-color)] transition-colors">Refund Policy</a>
+      </div>
+      <p>&copy; 2025 BeauSnap. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Password Toggle Script -->
+  <script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+      button.addEventListener('click', function () {
+        const targetId = this.getAttribute('data-target');
+        const input = document.querySelector(targetId);
+        const icon = this.querySelector('.toggle-icon');
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

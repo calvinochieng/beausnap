@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeauSnap</title>
+  <meta name="description" content="Make your screenshots look beautiful with custom backgrounds">
+  {% load static %}
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts (from new design) -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.0/dist/html2canvas.min.js"></script>
+
+  <!-- Font Awesome (Free) CDN (your existing version) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Local Stylesheet -->
+  {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+  <!-- Custom Styles -->
+  <style>
+    :root {
+      --primary-color: #1313ec;
+    }
+    .slider-thumb::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background-color: #1a1a24;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background-color: #3b3b54;
+      border-radius: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background-color: #5a5a72;
+    }
+    /* Center alignment guides inside #scene (your existing styles) */
+    #scene {
+      position: relative;
+    }
+    #center-guide-x, #center-guide-y {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 120ms ease;
+      z-index: 5;
+    }
+    /* Vertical center line */
+    #center-guide-x {
+      top: 0;
+      left: 50%;
+      height: 100%;
+      border-left: 1.5px dashed rgba(19, 19, 236, 0.85);
+      transform: translateX(-0.75px); /* visually center the 1.5px line */
+    }
+    /* Horizontal center line */
+    #center-guide-y {
+      left: 0;
+      top: 50%;
+      width: 100%;
+      border-top: 1.5px dashed rgba(19, 19, 236, 0.85);
+      transform: translateY(-0.75px);
+    }
+    .skew-preset.selected {
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(19, 19, 236, 0.25), 0 6px 16px rgba(0,0,0,0.45);
+    }
+
+    .skew-preset.selected::after {
+    content: '✓';
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 16px;
+        height: 16px;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+  </style>
+
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+ <!-- HEADER -->
+    <header class="flex flex-wrap items-center justify-between whitespace-nowrap border-b border-solid border-[#282839] px-4 py-3 md:px-6 md:py-4 bg-[#111118] text-white">
+        <!-- Logo and Title -->
+        <a href="/" class="flex items-center gap-3 md:gap-4">
+            <div class="size-7 md:size-8 text-[var(--primary-color)]">
+            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path></svg>
+            </div>
+            <h1 class="hidden md:block text-xl md:text-2xl font-bold tracking-tighter">BeauSnap</h1>
+        </a>
+
+        <!-- Mobile menu button (placeholder, can be hidden for now) -->
+        <div class="ml-2 md:ml-4 md:hidden pl-2 md:pl-4">
+            <button id="mobile-menu-button" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839]" style="display: none;">
+            <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Primary Action Buttons -->
+        <div class="flex items-center gap-2 md:gap-4">
+            <!-- Upload Button -->
+            <button class="hover:bg-opacity-80 border border-solid border-[var(--primary-color)] items-center gap-2 justify-center rounded-md h-9 md:h-10 px-3 md:px-4 bg-[#282839] text-white text-sm font-bold transition-colors" onclick="triggerFileUpload()">
+                <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+                <span class="hidden lg:inline">Upload Image</span>
+            </button>
+
+            <!-- Capture Screenshot Button (hidden on small screens) -->
+            <button class="hidden md:flex items-center gap-2 justify-center rounded-md h-9 md:h-10 px-3 md:px-4 bg-[#282839] text-white text-sm font-bold transition-colors hover:bg-opacity-80" onclick="captureScreenHandler()">
+                <i class="fa-solid fa-expand text-base"></i>
+                <span class="hidden lg:inline">Capture Screenshot</span>
+            </button>
+
+            <button class="remove-btn" id="remove-btn" onclick="removeImage()"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+
+            <!-- Download Button (triggers export modal) -->
+            <button
+                class="flex items-center gap-2 justify-center rounded-md h-9 md:h-10 px-4 md:px-6 bg-[var(--primary-color)] text-white font-bold transition-colors text-sm md:text-base hover:bg-opacity-90"
+                id="export-modal-btn" aria-haspopup="dialog" aria-expanded="false">
+                <i class="fa-solid fa-download text-base md:text-lg"></i>
+                <span class="hidden sm:inline">Download</span>
+            </button>
+
+            <!-- Presets Button (moved to top right) -->
+            <button style="display: none !important;" class="flex items-center gap-2 justify-center rounded-md h-9 md:h-10 px-3 md:px-4 bg-[#282839] text-white text-sm font-bold hover:bg-opacity-80 transition-colors" id="presets-modal-btn" aria-haspopup="dialog" aria-expanded="false">
+            Presets <i class="fa-solid fa-sliders text-base"></i>
+            </button>
+        </div>
+    </header>
+
+
+    <div class="main-container">
+        <div class="preview-area" id="preview-area">
+            <div class="scene-container" id="scene">
+                <canvas id="master-canvas" width="800" height="600"></canvas>
+
+                <div id="upload-prompt" class="bg-black absolute w-full max-w-2xl mx-auto flex flex-col items-center justify-center border-2 border-dashed border-gray-500 rounded-2xl p-6 md:p-12 text-center">
+                    <i class="fa-solid fa-camera text-4xl md:text-5xl text-gray-400 mb-3 md:mb-4"></i>
+                    <h2 class="text-xl md:text-2xl font-bold mb-2">Add your screenshot</h2>
+                    <p class="text-sm md:text-base text-gray-400 mb-4 md:mb-6">Drag and drop your image here, or use one of the options below.</p>
+                    <div class="flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full md:justify-center">
+                        <button
+                            onclick="triggerFileUpload()"
+                            class="w-full sm:w-auto flex items-center gap-2 justify-center rounded-md h-10 md:h-12 px-4 md:px-6 bg-[var(--primary-color)] text-white font-bold hover:bg-opacity-90 transition-colors text-sm md:text-base">
+                            <i class="fa-solid fa-upload text-base md:text-lg"></i>
+                            <span>Upload Image</span>
+                        </button>
+                        <button
+                            onclick="captureScreenHandler()"
+                            class="hidden lg:block w-full sm:w-auto flex items-center gap-2 justify-center rounded-md h-10 md:h-12 px-4 md:px-6 bg-[#282839] text-white font-bold hover:bg-opacity-80 transition-colors text-sm md:text-base">
+                            <i class="fa-solid fa-expand text-base md:text-lg"></i>
+                            <span>Capture Screenshot</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="image-container-ui" id="image-container-ui" style="display:none; position: absolute;">
+                <div class="resize-handle top-left"></div>
+                <div class="resize-handle top-right"></div>
+                <div class="resize-handle bottom-left"></div>
+                <div class="resize-handle bottom-right"></div>
+                <div class="resize-handle top"></div>
+                <div class="resize-handle bottom"></div>
+                <div class="resize-handle left"></div>
+                <div class="resize-handle right"></div>
+                <div id="image-removal-toolbar">
+                    <button id="remove-image-btn" title="Remove Image" aria-label="Remove Image"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+                </div>
+                <div id="center-guide-x" aria-hidden="true"></div>
+                <div id="center-guide-y" aria-hidden="true"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+
+            <!-- Upgrade Card -->
+            {% if not access_status.is_admin and access_status.in_trial %}
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-lg mb-4">
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-rocket text-xl"></i>
+                    <h3 class="font-bold">Upgrade to Pro</h3>
+                </div>
+                <a href="{% url 'upgrade' %}" class="block w-full text-center bg-white text-blue-600 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors">
+                    View Plans
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="section" id="aspect-ratio-section">
+                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Aspect Ratio</h3>
+                <div class="relative">
+                    <!-- Fake Select Button (Visible UI) -->
+                    <button
+                        class="w-full appearance-none bg-[#282839] border border-[#3b3b54] rounded-md h-10 md:h-12 px-3 md:px-4 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] flex justify-between items-center"
+                        id="aspect-ratio-display">
+                        <span id="aspect-ratio-label">Auto</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-sm md:text-base"></i>
+                    </button>
+                    <!-- Hidden Button Group (Actual Functionality) -->
+                    <div class="relative top-full left-0 right-0 mt-1 bg-[#282839] border border-[#3b3b54] rounded-md shadow-lg z-10 hidden" id="aspect-ratio-dropdown">
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="auto">Auto</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="original">Original</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="16:9">16:9</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="4:3">4:3</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="1:1">1:1</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="3:4">3:4</button>
+                    <button class="w-full text-left px-3 md:px-4 py-2 text-sm hover:bg-[#3b3b54] transition-colors" data-ratio="9:16">9:16</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="background-section">
+                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-3">Background</h3>
+                <div class="border-b border-[#3b3b54] mb-3 md:mb-4">
+                <nav class="-mb-px flex gap-4 md:gap-3 text-xs md:text-sm font-medium overflow-x-auto pb-1">
+                    <a id="image-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-[var(--primary-color)] text-white py-2 whitespace-nowrap" href="#">
+                    <i class="fa-solid fa-image text-xs md:text-base"></i>
+                    <span>Image</span>
+                    </a>
+                    <a id="gradient-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-transparent text-[#9d9db9] hover:text-white hover:border-white py-2 transition-colors whitespace-nowrap" href="#">
+                    <i class="fa-solid fa-palette text-xs md:text-base"></i>
+                    <span>Gradient</span>
+                    </a>
+                    <a id="color-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-transparent text-[#9d9db9] hover:text-white hover:border-white py-2 transition-colors whitespace-nowrap" href="#">
+                    <i class="fa-solid fa-palette text-xs md:text-base"></i>
+                    <span>Color</span>
+                    </a>
+                </nav>
+                </div>
+
+                <!-- Image Backgrounds (default active) -->
+                <div id="image-backgrounds-container" class="flex flex-wrap flex-row gap-1">
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1563291074-2bf8677ac0e5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <button class="img-bg-option pl-1 w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1487088678257-3a541e6e3922?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" data-bg-url="https://images.unsplash.com/photo-1487088678257-3a541e6e3922?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></button>
+                <!-- <button class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" onclick="triggerFileUpload()">
+                    <i class="fa-solid fa-cloud-arrow-up text-sm md:text-base"></i>
+                </button> -->
+                </div>
+
+                <!-- Gradient Backgrounds (hidden by default) -->
+                <div id="gradient-backgrounds-container" class="gradient-options" style="display: none;">
+                <div class="gradient-option selected" data-gradient="purple-blue"></div>
+                <div class="gradient-option" data-gradient="pink-purple"></div>
+                <div class="gradient-option" data-gradient="orange-yellow"></div>
+                <div class="gradient-option" data-gradient="blue-teal"></div>
+                </div>
+
+                <!-- Solid Color (hidden by default) -->
+                <div id="color-background-container" class="color-controls" style="display: none; margin-top: 1rem;">
+                    <input type="color" id="color-picker" value="#ffffff" class="color-picker-input w-full h-10 rounded-md border border-[#3b3b54] bg-[#282839]">
+                    <span id="color-value" class="block mt-2 text-center text-sm text-gray-400">#ffffff</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Box Style</h3>
+                <div class="border-b border-[#3b3b54] mb-3 md:mb-4">
+                    <nav class="-mb-px flex gap-4 md:gap-6 text-xs md:text-sm font-medium overflow-x-auto pb-1">
+                    <a id="glow-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-[var(--primary-color)] text-white py-2 whitespace-nowrap" href="#">
+                        <i class="fa-solid fa-sparkles text-xs md:text-base"></i>
+                        <span>Glow</span>
+                    </a>
+                    <a id="float-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-transparent text-[#9d9db9] hover:text-white hover:border-white py-2 transition-colors whitespace-nowrap" href="#">
+                        <i class="fa-solid fa-cube text-xs md:text-base"></i>
+                        <span>Float</span>
+                    </a>
+                    </nav>
+                </div>
+
+                <!-- Glow Options (default active) -->
+                <div id="glow-presets" class="glow-options-container flex flex-wrap flex-row gap-2 md:gap-3">
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="none" title="None">None</button>  
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="soft-blue" title="Soft Blue" style="--preset-color:#2196F3; box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.5);"></button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="magenta-pop" title="Magenta Pop" style="--preset-color:#FF00FF; box-shadow: 0 0 10px 2px rgba(236, 72, 153, 0.5);"></button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="electric-cyan" title="Electric Cyan" style="--preset-color:#00E5FF; box-shadow: 0 0 10px 2px rgba(34, 211, 238, 0.5);"></button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="warm-amber" title="Warm Amber" style="--preset-color:#FFC107; box-shadow: 0 0 10px 2px rgba(255, 193, 7, 0.5);"></button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="deep-purple" title="Deep Purple" style="--preset-color:#7C4DFF; box-shadow: 0 0 10px 2px rgba(124, 77, 255, 0.5);"></button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="outer-halo" title="Outer Halo" style="--preset-color:#ffffff; box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);"></button>
+                    <button class="glow-preset flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" title="Customize">
+                    <i class="fa-solid fa-palette text-sm md:text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Float Options (hidden by default) -->
+                <div id="float-presets" class="float-options-container flex flex-wrap flex-row gap-2 md:gap-3" style="display: none;">
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="none" data-label="None">None</button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="subtle" data-label="Subtle" title="Subtle" style="box-shadow: 0 8px 14px rgba(0,0,0,0.25);"></button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="medium" data-label="Medium" title="Medium" style="box-shadow: 0 12px 22px rgba(0,0,0,0.35);"></button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="high" data-label="High" title="High" style="box-shadow: 0 18px 28px rgba(0,0,0,0.45);"></button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="long-soft" data-label="Long Soft" title="Long Soft" style="box-shadow: 10px 22px 32px rgba(0,0,0,0.3);"></button>
+                    <button type="button" class="float-preset flex items-center justify-center w-16 h-15 md:w-16 md:h-15 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" data-label="Custom" style="background-color: #bbb;">
+                    <i class="fa-solid fa-palette text-sm md:text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Glow Custom Controls (hidden by default, shown when "Custom" is selected) -->
+                <div class="effect-controls" id="glow-custom-controls" style="display: none; margin-top: 1rem;">
+                    <div class="control-group mb-4">
+                    <label for="glow-color-ui" class="block text-xs md:text-sm font-medium mb-1">Color:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="color" id="glow-color-ui" value="#2196F3" class="h-10 w-10 rounded border border-[#3b3b54] bg-[#282839]">
+                        <span class="color-value text-sm text-gray-400">#2196F3</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="glow-blur-ui" class="block text-xs md:text-sm font-medium mb-1">Blur:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="glow-blur-ui" min="0" max="50" value="8" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="glow-blur-counter" min="0" max="50" value="8" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="glow-offset-x-ui" class="block text-xs md:text-sm font-medium mb-1">Offset X:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="glow-offset-x-ui" min="-50" max="50" value="0" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="glow-offset-x-counter" min="-50" max="50" value="0" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="glow-offset-y-ui" class="block text-xs md:text-sm font-medium mb-1">Offset Y:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="glow-offset-y-ui" min="-50" max="50" value="0" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="glow-offset-y-counter" min="-50" max="50" value="0" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Float Custom Controls (hidden by default, shown when "Custom" is selected) -->
+                <div class="effect-controls" id="float-custom-controls" style="display: none; margin-top: 1rem;">
+                    <div class="control-group mb-4">
+                    <label for="float-shadow-color-ui" class="block text-xs md:text-sm font-medium mb-1">Shadow Color:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="color" id="float-shadow-color-ui" value="#000000" class="h-10 w-10 rounded border border-[#3b3b54] bg-[#282839]">
+                        <span class="color-value text-sm text-gray-400">#000000</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="float-blur-ui" class="block text-xs md:text-sm font-medium mb-1">Shadow Blur:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="float-blur-ui" min="0" max="50" value="20" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="float-blur-counter" min="0" max="50" value="20" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="float-offset-x-ui" class="block text-xs md:text-sm font-medium mb-1">Offset X:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="float-offset-x-ui" min="-50" max="50" value="0" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="float-offset-x-counter" min="-50" max="50" value="0" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="float-offset-y-ui" class="block text-xs md:text-sm font-medium mb-1">Elevation:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="float-offset-y-ui" min="0" max="30" value="10" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="float-offset-y-counter" min="0" max="30" value="10" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                        <span class="unit text-sm text-gray-400">px</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox" id="float-auto-elevation" checked class="w-4 h-4">
+                        <label for="float-auto-elevation" class="text-xs text-gray-400">Auto from Elevation</label>
+                    </div>
+                    </div>
+                    <div class="control-group mb-4">
+                    <label for="float-opacity-ui" class="block text-xs md:text-sm font-medium mb-1">Shadow Opacity:</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="float-opacity-ui" min="0" max="1" step="0.1" value="0.3" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+                        <input type="number" id="float-opacity-counter" min="0" max="1" step="0.1" value="0.3" class="counter-input w-12 h-8 text-center bg-[#282839] border border-[#3b3b54] rounded text-sm">
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Transform</h3>
+
+                <!-- Presets Grid (3D & Skew combined visually) -->
+                <div class="grid grid-cols-4 gap-3 md:gap-4 mb-6">
+                    <!-- 3D Presets -->
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
+                    data-transform='{"rotateX": 10, "rotateY": -25, "translateZ": -10, "perspective": 100, "scale": 100}'>
+                    <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded" style="transform: perspective(100px) rotateY(-25deg) rotateX(10deg) translateZ(-10px);"></div>
+                    </button>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
+                    data-transform='{"rotateX": -10, "rotateY": 25, "translateZ": -10, "perspective": 100, "scale": 100}'>
+                    <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded" style="transform: perspective(100px) rotateY(25deg) rotateX(-10deg) translateZ(-10px);"></div>
+                    </button>
+                    <!-- Skew Presets -->
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
+                    data-transform='{"skewX": 15, "skewY": 0}'>
+                    <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded transform skew-x-15"></div>
+                    </button>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
+                    data-transform='{"skewX": 0, "skewY": 8}'>
+                    <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded transform skew-y-8"></div>
+                    </button>
+                </div>
+
+                <!-- Always Visible: Rotate, Scale, Skew -->
+                <div class="space-y-4 md:space-y-6">
+                    <!-- Rotate Control -->
+                    <div class="grid gap-2">
+                    <div class="flex justify-between items-center">
+                        <label for="rotate-ui" class="text-xs md:text-sm font-medium">Rotate</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="rotate-value">0</span>
+                    </div>
+                    <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="rotate-ui" max="360" min="0" type="range" value="0">
+                    </div>
+
+                    <!-- Scale Control -->
+                    <div class="grid gap-2">
+                    <div class="flex justify-between items-center">
+                        <label for="scale-ui" class="text-xs md:text-sm font-medium">Scale</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="scale-value">100</span>
+                    </div>
+                    <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="scale-ui" max="150" min="50" type="range" value="100">
+                    </div>
+
+                    <!-- Skew X Control -->
+                    <div class="grid gap-2">
+                    <div class="flex justify-between items-center">
+                        <label for="skew-x-ui" class="text-xs md:text-sm font-medium">Skew X</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="skew-x-value">0</span>
+                    </div>
+                    <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="skew-x-ui" max="45" min="-45" type="range" value="0">
+                    </div>
+
+                    <!-- Skew Y Control -->
+                    <div class="grid gap-2">
+                    <div class="flex justify-between items-center">
+                        <label for="skew-y-ui" class="text-xs md:text-sm font-medium">Skew Y</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="skew-y-value">0</span>
+                    </div>
+                    <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="skew-y-ui" max="45" min="-45" type="range" value="0">
+                    </div>
+                </div>
+
+                <!-- Advanced 3D Controls (Hidden by Default) -->
+                <div class="pt-4">
+                    <button id="toggle-advanced-transform" class="text-[#9d9db9] text-sm hover:text-white flex items-center gap-1">
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                    Advanced 3D
+                    </button>
+                    <div id="advanced-transform-controls" class="space-y-4 pt-4 border-t border-[#282839]" style="display: none;">
+
+                    <!-- Perspective Control -->
+                    <div class="grid gap-2">
+                        <div class="flex justify-between items-center">
+                        <label for="perspective-ui" class="text-xs md:text-sm font-medium">Perspective</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="perspective-value">100</span>
+                        </div>
+                        <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="perspective-ui" max="2000" min="50" type="range" value="100">
+                    </div>
+
+                    <!-- Rotate X Control -->
+                    <div class="grid gap-2">
+                        <div class="flex justify-between items-center">
+                        <label for="rotate-x-ui" class="text-xs md:text-sm font-medium">Rotate X</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="rotate-x-value">0</span>
+                        </div>
+                        <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="rotate-x-ui" max="180" min="-180" type="range" value="0">
+                    </div>
+
+                    <!-- Rotate Y Control -->
+                    <div class="grid gap-2">
+                        <div class="flex justify-between items-center">
+                        <label for="rotate-y-ui" class="text-xs md:text-sm font-medium">Rotate Y</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="rotate-y-value">0</span>
+                        </div>
+                        <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="rotate-y-ui" max="180" min="-180" type="range" value="0">
+                    </div>
+
+                    <!-- Translate Z (Depth) Control -->
+                    <div class="grid gap-2">
+                        <div class="flex justify-between items-center">
+                        <label for="translate-z-ui" class="text-xs md:text-sm font-medium">Depth</label>
+                        <span class="text-xs md:text-sm text-gray-400" id="translate-z-value">0</span>
+                        </div>
+                        <input class="w-full h-1.5 md:h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb" id="translate-z-ui" max="500" min="-500" type="range" value="0">
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reset All Effects Button -->
+            <div class="pt-4 md:pt-6 border-t border-[#282839]">
+                <button 
+                    class="w-full flex items-center justify-center gap-2 rounded-md h-11 px-4 bg-[#282839] text-white font-bold hover:bg-opacity-80 transition-colors text-sm md:text-base shadow-sm hover:shadow-md"
+                    onclick="showResetConfirmationModal()"
+                    aria-label="Reset all effects to default">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Reset All Effects</span>
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal - FIXED OPACITY -->
+    <div id="reset-confirm-modal" class="fixed inset-0 justify-center items-center bg-black/80 z-50" style="display: none;">
+    <div class="modal-overlay absolute inset-0 opacity-50" onclick="hideResetConfirmationModal()"></div>
+    <div class="modal-content relative w-full max-w-md bg-[#1a1a24] rounded-xl border border-[#282839] shadow-2xl overflow-hidden opacity-100 z-10">
+        <div class="modal-header px-6 py-4 border-b border-[#282839] flex items-center justify-between">
+        <h2 id="reset-confirm-title" class="text-lg md:text-xl font-bold text-red-400">⚠️ Confirm Reset</h2>
+        <button class="modal-close-btn p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] transition-colors" onclick="hideResetConfirmationModal()" aria-label="Close">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        </div>
+        <div class="modal-body p-6 text-center">
+        <p class="text-sm text-gray-300 mb-6">
+            Are you sure you want to reset <strong>ALL effects</strong>?<br>
+            This includes Glow, Float, Skew, Rotate, Scale, and 3D transforms.<br>
+            <strong class="text-red-400">This action cannot be undone.</strong>
+        </p>
+        <div class="flex gap-3 justify-center">
+            <button class="px-6 py-2 bg-[var(--primary-color)] text-white rounded-md font-bold hover:bg-opacity-90 transition-colors" onclick="confirmReset()">
+            Yes, Reset Everything
+            </button>
+            <button class="px-6 py-2 bg-[#282839] text-white rounded-md font-bold hover:bg-opacity-80 transition-colors" onclick="hideResetConfirmationModal()">
+            Cancel
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- NEW: Presets Modal -->
+    <div id="presets-modal" class="app-modal" role="dialog" aria-labelledby="presets-modal-title" aria-hidden="true">
+        <div class="modal-overlay" data-modal-close></div> <!-- Overlay to close modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="presets-modal-title">Manage Presets</h2> <!-- Title for accessibility -->
+                <button class="modal-close-btn" data-modal-close aria-label="Close Presets">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preset-actions">
+                    <input type="text" class="preset-name-input" id="modal-preset-name" value="My Preset" placeholder="Preset Name">
+                    <button class="preset-action-btn" id="save-preset-modal-btn"><i class="fa-solid fa-floppy-disk"></i> Save Current</button>
+                </div>
+                <hr>
+                <div class="saved-presets-list-container">
+                    <h3>Saved Presets</h3>
+                    <div class="saved-presets-list" id="modal-saved-presets-list">
+                        <!-- Saved presets will be populated here by JS -->
+                        <!-- Example Item (will be generated):
+                        <div class="preset-item">
+                            <span class="preset-name">My Cool Preset</span>
+                            <div class="preset-item-actions">
+                                <button class="preset-load-btn preset-modal-btn" data-preset-name="My Cool Preset">Load</button>
+                                <button class="preset-delete-btn preset-modal-btn" data-preset-name="My Cool Preset"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <div class="no-presets-message" id="modal-no-presets-message">No saved presets yet.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Export Modal (Upgraded) -->
+        <div id="export-modal" class="app-modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" role="dialog" aria-labelledby="export-modal-title" aria-hidden="true">
+        <div class="modal-overlay absolute inset-0" data-modal-close></div>
+        <div class="modal-content relative w-full max-w-md bg-[#1a1a24] rounded-xl border border-[#282839] shadow-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="modal-header px-6 py-4 border-b border-[#282839] flex items-center justify-between">
+            <h2 id="export-modal-title" class="text-lg md:text-xl font-bold">Export Screenshot</h2>
+            <button class="modal-close-btn p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] transition-colors" data-modal-close aria-label="Close Export">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-6 space-y-5">
+            <!-- Format Selection -->
+            <div class="export-option-group">
+                <label for="export-format-modal" class="block text-sm font-medium text-gray-300 mb-2">Format:</label>
+                <div class="relative">
+                <select id="export-format-modal" class="w-full appearance-none bg-[#282839] border border-[#3b3b54] rounded-md h-11 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                    <option value="png">PNG (Lossless, Transparency)</option>
+                    <option value="jpeg">JPEG (Smaller, No Transparency)</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <!-- Quality Slider (for JPEG) -->
+            <div class="export-option-group" id="jpeg-quality-group-modal" style="display: none;">
+                <label for="jpeg-quality-modal" class="block text-sm font-medium text-gray-300 mb-2">
+                Quality: <span id="jpeg-quality-value-modal" class="font-mono">0.92</span>
+                </label>
+                <input type="range" id="jpeg-quality-modal" min="0.1" max="1.0" step="0.01" value="0.92" class="w-full h-2 bg-[#3b3b54] rounded-lg appearance-none cursor-pointer slider-thumb">
+            </div>
+
+            <!-- Scale Multiplier -->
+            <div class="export-option-group">
+                <label for="export-scale-modal" class="block text-sm font-medium text-gray-300 mb-2">Scale:</label>
+                <div class="relative">
+                <select id="export-scale-modal" class="w-full appearance-none bg-[#282839] border border-[#3b3b54] rounded-md h-11 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                    <option value="1">1x — Standard (800×600)</option>
+                    <option value="2">2x — HiDPI (1600×1200)</option>
+                    <option value="3">3x — Ultra (2400×1800)</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <hr class="border-[#282839]">
+
+            <!-- Action Buttons -->
+            <div class="export-actions flex flex-col sm:flex-row gap-3">
+                <button class="export-action-btn flex-1 flex items-center justify-center gap-2 rounded-md h-11 px-4 bg-[var(--primary-color)] text-white font-bold hover:bg-opacity-90 transition-colors text-sm" id="download-btn-modal">
+                <i class="fa-solid fa-download"></i>
+                <span>Download Image</span>
+                </button>
+                <button class="export-action-btn flex-1 flex items-center justify-center gap-2 rounded-md h-11 px-4 bg-[#282839] text-white font-bold hover:bg-opacity-80 transition-colors text-sm" onclick="copyToClipboard()">
+                <i class="fa-regular fa-clipboard"></i>
+                <span>Copy to Clipboard</span>
+                </button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+    <footer style="display: none;">
+        <div class="preset-controls">
+        <span>Preset:</span>
+        <button class="preset-btn" onclick="savePreset()"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
+        <button class="preset-btn" onclick="loadPreset()"><i class="fa-solid fa-folder-open" aria-hidden="true"></i> Load</button>
+        <button class="preset-btn" onclick="deletePreset()"><i class="fa-solid fa-trash" aria-hidden="true"></i> Delete</button>
+        <input type="text" class="preset-name" value="My Preset" placeholder="Preset Name">
+        </div>
+        <div class="action-buttons">
+        <button class="copy-btn" onclick="copyToClipboard()"><i class="fa-regular fa-clipboard" aria-hidden="true"></i> Copy</button>
+        <button class="export-btn" onclick="exportImage()"><i class="fa-solid fa-download" aria-hidden="true"></i> Export PNG</button> 
+        </div>
+    </footer>
+
+    <script>
+    // Show reset confirmation modal
+    function showResetConfirmationModal() {
+        document.getElementById('reset-confirm-modal').style.display = 'flex';
+        // Trap focus for accessibility
+        const firstFocusable = document.querySelector('#reset-confirm-modal button');
+        if (firstFocusable) firstFocusable.focus();
+    }
+
+    // Hide reset confirmation modal
+    function hideResetConfirmationModal() {
+        document.getElementById('reset-confirm-modal').style.display = 'none';
+    }
+
+    // Confirm reset and execute
+    function confirmReset() {
+        hideResetConfirmationModal();
+        resetAllEffects(); // Call your existing reset function
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('reset-confirm-modal').style.display === 'flex') {
+        hideResetConfirmationModal();
+        }
+    });
+
+    // Ensure reset button triggers modal
+    document.addEventListener('DOMContentLoaded', function() {
+        const resetButton = document.querySelector('.reset-effects-btn');
+        if (resetButton) {
+        resetButton.onclick = function(e) {
+            e.preventDefault(); // Prevent default action
+            showResetConfirmationModal(); // Show confirmation modal instead
+        };
+        }
+    });
+    </script>
+
+    <script src="{% static 'js/controls.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        async function exportOptionsSelector() {
+            const format = document.getElementById('export-format-modal').value; // 'png' or 'jpeg'
+            const qualityInput = document.getElementById('jpeg-quality-modal');
+            // Get quality as a float number. Default to 1.0 if not found or invalid.
+            let quality = 1.0;
+            if (format === 'jpeg' && qualityInput) {
+                quality = parseFloat(qualityInput.value);
+                // Ensure quality is within a valid range (0.0 - 1.0)
+                if (isNaN(quality) || quality < 0.0 || quality > 1.0) {
+                    console.warn('Invalid JPEG quality value, defaulting to 0.92');
+                    quality = 0.92; // Or your default JPEG quality
+                }
+            }
+            // Get scale as an integer. Default to 1 if not found or invalid.
+            const scaleSelect = document.getElementById('export-scale-modal');
+            let scale = 1;
+            if (scaleSelect) {
+                scale = parseInt(scaleSelect.value, 10);
+                if (isNaN(scale) || scale <= 0) {
+                    console.warn('Invalid scale value, defaulting to 1');
+                    scale = 1;
+                }
+            }
+            try {
+                if (format === 'jpeg') {
+                    await exportImage(format, quality, scale);
+                } else {
+                    await exportImage(format, quality, scale);
+                }
+            } catch (error) {
+                console.error('Export failed:', error);
+                alert(`❌${format.toUpperCase()} Export failed. Falling back to PNG`);
+                exportImage(format = 'png', quality = 1.0, scale = 1)
+            }
+        }
+        const downloadBtnModal = document.getElementById('download-btn-modal');
+        downloadBtnModal.addEventListener('click', async function() {
+            await exportOptionsSelector();
+            closeModal(exportModal); // Close the modal after attempt
+        });
+
+        // --- Aspect Ratio Fake Select ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const displayButton = document.getElementById('aspect-ratio-display');
+            const dropdownMenu = document.getElementById('aspect-ratio-dropdown');
+            const labelSpan = document.getElementById('aspect-ratio-label');
+            
+
+            // Toggle dropdown visibility
+            displayButton.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent body click handler from immediately closing it
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdownMenu.classList.add('hidden');
+            });
+
+            // Handle clicks on dropdown items
+            dropdownMenu.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent body click from closing before we handle this
+                    const ratio = this.getAttribute('data-ratio');
+                    // Find the corresponding button in the OLD btn-group (for JS compatibility)
+                    const legacyBtn = document.querySelector(`.btn-group .btn[data-ratio="${ratio}"]`);
+                    if (legacyBtn) {
+                        // Trigger the existing click handler
+                        legacyBtn.click();
+                    } else {
+                        // Fallback: Directly call applyRatio if no legacy button found
+                        applyRatio(ratio);
+                        // Manually update the UI since the legacy button didn't fire
+                        updateAspectRatioUI(ratio);
+                    }
+                    // Update the fake select's label
+                    labelSpan.textContent = this.textContent;
+                    // Close the dropdown
+                    dropdownMenu.classList.add('hidden');
+                });
+            });
+
+            // Function to update the fake select's label based on the active legacy button
+            function updateAspectRatioUI(ratio) {
+                const activeLegacyBtn = document.querySelector(`.btn-group .btn[data-ratio="${ratio}"]`);
+                if (activeLegacyBtn) {
+                    labelSpan.textContent = activeLegacyBtn.textContent;
+                }
+            }
+
+            // Listen for changes to the legacy button group to keep the fake select in sync
+            // (e.g., if "Auto" is set as default on page load)
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const ratio = this.getAttribute('data-ratio');
+                    updateAspectRatioUI(ratio);
+                });
+            });
+
+            // Initialize the fake select label on page load
+            const initiallyActiveBtn = document.querySelector('.btn-group .btn.active');
+            if (initiallyActiveBtn) {
+                updateAspectRatioUI(initiallyActiveBtn.getAttribute('data-ratio'));
+            }
+
+            const imageTab = document.getElementById('image-tab');
+            const gradientTab = document.getElementById('gradient-tab');
+            const colorTab = document.getElementById('color-tab');
+
+            const imageContainer = document.getElementById('image-backgrounds-container');
+            const gradientContainer = document.getElementById('gradient-backgrounds-container');
+            const colorContainer = document.getElementById('color-background-container');
+            // Function to switch active tab and show corresponding panel
+            function switchBackgroundTab(activeTab, containers) {
+                // Reset all tabs
+                [imageTab, gradientTab, colorTab].forEach(tab => {
+                    tab.classList.remove('text-white', 'border-[var(--primary-color)]');
+                    tab.classList.add('text-[#9d9db9]', 'border-transparent');
+                });
+
+                // Activate selected tab
+                activeTab.classList.remove('text-[#9d9db9]', 'border-transparent');
+                activeTab.classList.add('text-white', 'border-[var(--primary-color)]');
+
+                // Hide all containers
+                containers.forEach(container => container.style.display = 'none');
+
+                // Show active container
+                if (activeTab === imageTab) {
+                    imageContainer.style.display = 'flex';
+                } else if (activeTab === gradientTab) {
+                    gradientContainer.style.display = 'flex';
+                } else if (activeTab === colorTab) {
+                    colorContainer.style.display = 'block';
+                }
+            }
+
+            // Set up click handlers
+            imageTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBackgroundTab(imageTab, [gradientContainer, colorContainer]);
+            });
+
+            gradientTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBackgroundTab(gradientTab, [imageContainer, colorContainer]);
+            });
+
+            colorTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBackgroundTab(colorTab, [imageContainer, gradientContainer]);
+            });
+
+            // --- Gradient Background Click Handlers (Preserve your existing logic) ---
+            gradientContainer.querySelectorAll('.gradient-option').forEach(el => {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.gradient-option').forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const gradientType = this.dataset.gradient;
+                    // Reuse your existing gradient logic
+                    applyGradientBackground(gradientType);
+                });
+            });
+
+            // --- Color Picker (Preserve your existing logic) ---
+            const colorPicker = document.getElementById('color-picker');
+            const colorValue = document.getElementById('color-value');
+            if (colorPicker) {
+                colorPicker.addEventListener('input', function() {
+                    const selectedColor = this.value;
+                    if (colorValue) colorValue.textContent = selectedColor;
+                    // Reuse your existing color logic
+                    applyColorBackground(selectedColor);
+                });
+            }
+
+            // Initialize: Show Image tab by default
+            switchBackgroundTab(imageTab, [gradientContainer, colorContainer]);
+
+
+            // --- Box Style Tabs (Glow and Float) ---
+            const glowTab = document.getElementById('glow-tab');
+            const floatTab = document.getElementById('float-tab');
+
+            const glowContainer = document.querySelector('.glow-options-container');
+            const floatContainer = document.querySelector('.float-options-container');
+            const glowCustomControls = document.getElementById('glow-custom-controls');
+            const floatCustomControls = document.getElementById('float-custom-controls');
+
+            // Function to switch active tab and show corresponding panel
+            function switchBoxStyleTab(activeTab) {
+                // Reset all tabs
+                [glowTab, floatTab].forEach(tab => {
+                    tab.classList.remove('text-white', 'border-[var(--primary-color)]');
+                    tab.classList.add('text-[#9d9db9]', 'border-transparent');
+                });
+
+                // Activate selected tab
+                activeTab.classList.remove('text-[#9d9db9]', 'border-transparent');
+                activeTab.classList.add('text-white', 'border-[var(--primary-color)]');
+
+                // Hide all containers
+                glowContainer.style.display = 'none';
+                floatContainer.style.display = 'none';
+                glowCustomControls.style.display = 'none';
+                floatCustomControls.style.display = 'none';
+
+                // Show active container
+                if (activeTab === glowTab) {
+                    glowContainer.style.display = 'flex';
+                    // If custom glow is selected, show controls
+                    if (appState.ui.glowSelectedPreset === 'custom') {
+                        glowCustomControls.style.display = 'block';
+                    }
+                } else if (activeTab === floatTab) {
+                    floatContainer.style.display = 'flex';
+                    // If custom float is selected, show controls
+                    if (appState.ui.floatSelectedPreset === 'custom') {
+                        floatCustomControls.style.display = 'block';
+                    }
+                }
+            }
+
+            // Set up click handlers
+            glowTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBoxStyleTab(glowTab);
+            });
+
+            floatTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                switchBoxStyleTab(floatTab);
+            });
+
+            // Initialize: Show Glow tab by default
+            switchBoxStyleTab(glowTab);
+
+            // --- Glow Preset Click Handlers (Re-use your existing logic) ---
+            glowContainer.querySelectorAll('.glow-preset').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const key = this.dataset.key;
+                    applyGlowPreset(key); // Reuse your existing function
+                    // If "Custom" is selected, show controls
+                    if (key === 'custom') {
+                        glowCustomControls.style.display = 'block';
+                    } else {
+                        glowCustomControls.style.display = 'none';
+                    }
+                });
+            });
+
+
+            // Advanced Transform Toggles and Controls
+            const toggleBtn = document.getElementById('toggle-advanced-transform');
+            const advancedControls = document.getElementById('advanced-transform-controls');
+
+            toggleBtn.addEventListener('click', function() {
+                const isHidden = advancedControls.style.display === 'none';
+                advancedControls.style.display = isHidden ? 'block' : 'none';
+                this.innerHTML = isHidden ?
+                    `<i class="fa-solid fa-chevron-up text-xs"></i> Advanced 3D` :
+                    `<i class="fa-solid fa-chevron-down text-xs"></i> Advanced 3D`;
+            });
+
+            // --- Sync NEW Advanced Sliders ---
+            const advancedMappings = [
+                { sliderId: 'perspective-ui', stateKey: 'perspective', valueId: 'perspective-value' },
+                { sliderId: 'rotate-x-ui', stateKey: 'rotateX', valueId: 'rotate-x-value' },
+                { sliderId: 'rotate-y-ui', stateKey: 'rotateY', valueId: 'rotate-y-value' },
+                { sliderId: 'translate-z-ui', stateKey: 'translateZ', valueId: 'translate-z-value' }
+            ];
+
+            advancedMappings.forEach(({ sliderId, stateKey, valueId }) => {
+                const slider = document.getElementById(sliderId);
+                const valueDisplay = document.getElementById(valueId);
+
+                if (!slider) return;
+
+                slider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (valueDisplay) valueDisplay.textContent = value;
+
+                    // Update the CORRECT state object
+                    appState.scene.transform[stateKey] = value;
+                    renderScene();
+                });
+
+                // Initialize slider value from state
+                slider.value = appState.scene.transform[stateKey] || 0;
+                if (valueDisplay) valueDisplay.textContent = slider.value;
+            });
+
+            // --- Update EXISTING Rotate & Scale Sliders to use CORRECT state ---
+            const rotateSlider = document.getElementById('rotate-ui');
+            const scaleSlider = document.getElementById('scale-ui');
+            const rotateValue = document.getElementById('rotate-value');
+            const scaleValue = document.getElementById('scale-value');
+
+            if (rotateSlider) {
+                rotateSlider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (rotateValue) rotateValue.textContent = value;
+
+                    // ✅ Update the CORRECT state object
+                    appState.scene.transform.rotateZ = value;
+                    renderScene();
+                });
+                // Initialize
+                rotateSlider.value = appState.scene.transform.rotateZ || 0;
+                if (rotateValue) rotateValue.textContent = rotateSlider.value;
+            }
+
+            if (scaleSlider) {
+                scaleSlider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (scaleValue) scaleValue.textContent = value;
+
+                    // ✅ Update the CORRECT state object
+                    appState.scene.transform.scale = value;
+                    renderScene();
+                });
+                // Initialize
+                scaleSlider.value = appState.scene.transform.scale || 100;
+                if (scaleValue) scaleValue.textContent = scaleSlider.value;
+            }
+
+            // --- Update Skew Sliders to use CORRECT state ---
+            const skewXSlider = document.getElementById('skew-x-ui');
+            const skewYSlider = document.getElementById('skew-y-ui');
+            const skewXValue = document.getElementById('skew-x-value');
+            const skewYValue = document.getElementById('skew-y-value');
+
+            if (skewXSlider) {
+                skewXSlider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (skewXValue) skewXValue.textContent = value;
+
+                    // ✅ Update the CORRECT state object
+                    appState.effects.skew.xAngle = value;
+                    renderScene();
+                });
+                // Initialize
+                skewXSlider.value = appState.effects.skew.xAngle || 0;
+                if (skewXValue) skewXValue.textContent = skewXSlider.value;
+            }
+
+            if (skewYSlider) {
+                skewYSlider.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (skewYValue) skewYValue.textContent = value;
+
+                    // ✅ Update the CORRECT state object
+                    appState.effects.skew.yAngle = value;
+                    renderScene();
+                });
+                // Initialize
+                skewYSlider.value = appState.effects.skew.yAngle || 0;
+                if (skewYValue) skewYValue.textContent = skewYSlider.value;
+            }
+
+            // --- Update 3D Preset Buttons to ONLY update state, not UI sliders manually ---
+            document.querySelectorAll('.transform-preset').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const transform = JSON.parse(this.dataset.transform);
+                    console.log('Applying Transform Preset:', transform);
+                    apply3DPreset(transform); // 
+                    renderScene();
+                });
+            });
+
+
+
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

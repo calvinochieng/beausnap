@@ -1,0 +1,233 @@
+{% extends "./auth.html" %}
+
+{% load static %}
+
+
+{% block title %}Sign Up {% endblock %}
+
+{% block content %}
+<div class="w-full max-w-md space-y-8">
+
+  <!-- Title -->
+  <div class="text-center">
+    <h2 class="text-3xl font-bold mb-2">Create Your Account</h2>
+    <p class="text-sm text-gray-400">
+      Already have an account?
+      <a href="{% url 'signin' %}" class="font-medium text-[var(--primary-color)] hover:text-opacity-80 transition-opacity">
+        <i class="fas fa-arrow-right mr-1"></i> Sign In
+      </a>
+    </p>
+  </div>
+
+  <!-- Primary Google Signup -->
+  <div class="space-y-4">
+    <div class="text-center">
+      <h3 class="text-lg font-semibold text-white mb-2">Quick & Secure Signup</h3>
+      <p class="text-sm text-gray-400">Create account with your Google profile</p>
+    </div>
+
+    <a href="{% url 'social:begin' 'google-oauth2' %}"
+       class="group relative flex w-full items-center justify-center gap-3 rounded-xl h-14 px-6 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-red-500 hover:border-red-400 transform hover:scale-[1.02] active:scale-[0.98]">
+      <i class="fa-brands fa-google text-xl group-hover:scale-110 transition-transform"></i>
+      <span>Sign up with Google</span>
+      <div class="absolute -top-3 -right-3">
+        <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md animate-pulse">
+          ⚡ Fastest
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Manual Auth Toggle -->
+  <div class="relative my-8">
+    <div class="absolute inset-0 flex items-center">
+      <div class="w-full border-t border-[#282839]"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <button type="button"
+              id="toggle-manual-signup"
+              class="group bg-[#111118] px-4 py-2 rounded-full border border-[#282839] hover:border-[#3b3b54] transition-all duration-300 text-sm text-gray-400 hover:text-white flex items-center gap-2">
+        <i class="fas fa-user-plus group-hover:rotate-12 transition-transform"></i>
+        <span id="signup-toggle-text">Create Account Manually</span>
+        <i class="fas fa-chevron-down group-hover:translate-y-1 transition-transform" id="signup-toggle-icon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Collapsible Manual Signup Form -->
+  <div id="manual-signup-section" class="hidden space-y-6">
+    <div class="text-center mb-4">
+      <h4 class="text-md font-medium text-gray-300">Manual Registration</h4>
+      <p class="text-xs text-gray-500">Fill in your details below</p>
+    </div>
+
+    <form class="space-y-6" method="POST" id="manual-signup-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="space-y-6 rounded-xl bg-[#181820] p-6 shadow-lg border border-[#282839]">
+
+      <!-- Email -->
+      <div class="input-focus-effect relative">
+        <label class="block text-sm font-medium text-gray-300 mb-2" for="email">
+          <i class="fas fa-envelope mr-2"></i> Email Address
+        </label>
+        <div class="relative">
+          <input id="email"
+                 name="email"
+                 type="email"
+                 required
+                 placeholder="you@example.com"
+                 autocomplete="email"
+                 class="w-full h-12 pl-10 pr-4 rounded-lg bg-transparent border border-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500" />
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+      </div>
+      <div class="text-red-500 text-sm">{{ form.email.errors }}</div>
+
+      <!-- First Name -->
+      <div class="input-focus-effect relative">
+        <label class="block text-sm font-medium text-gray-300 mb-2" for="first_name">
+          <i class="fas fa-user mr-2"></i> First Name
+        </label>
+        <div class="relative">
+          <input id="first_name"
+                 name="first_name"
+                 type="text"
+                 placeholder="John"
+                 autocomplete="given-name"
+                 class="w-full h-12 pl-10 pr-4 rounded-lg bg-transparent border border-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500" />
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+      <div class="text-red-500 text-sm">{{ form.first_name.errors }}</div>
+
+      <!-- Last Name -->
+      <div class="input-focus-effect relative">
+        <label class="block text-sm font-medium text-gray-300 mb-2" for="last_name">
+          <i class="fas fa-user mr-2"></i> Last Name
+        </label>
+        <div class="relative">
+          <input id="last_name"
+                 name="last_name"
+                 type="text"
+                 placeholder="Doe"
+                 autocomplete="family-name"
+                 class="w-full h-12 pl-10 pr-4 rounded-lg bg-transparent border border-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500" />
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+      <div class="text-red-500 text-sm">{{ form.last_name.errors }}</div>
+
+      <!-- Password -->
+      <div class="input-focus-effect relative">
+        <label class="block text-sm font-medium text-gray-300 mb-2" for="password">
+          <i class="fas fa-lock mr-2"></i> Password
+        </label>
+        <div class="relative">
+          <input id="password1"
+                 name="password1"
+                 type="password"
+                 required
+                 placeholder="••••••••"
+                 autocomplete="new-password"
+                 class="w-full h-12 pl-10 pr-10 rounded-lg bg-transparent border border-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500" />
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <i class="fas fa-lock"></i>
+          </div>
+          <button type="button"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 toggle-password text-gray-500 hover:text-white"
+                  data-target="#password1">
+            <i class="fas fa-eye toggle-icon"></i>
+          </button>
+        </div>
+      </div>
+      <div class="text-red-500 text-sm">{{ form.password1.errors }}</div>
+
+      <!-- Confirm Password -->
+      <div class="input-focus-effect relative">
+        <label class="block text-sm font-medium text-gray-300 mb-2" for="password2">
+          <i class="fas fa-lock mr-2"></i> Confirm Password
+        </label>
+        <div class="relative">
+          <input id="password2"
+                 name="password2"
+                 type="password"
+                 required
+                 placeholder="••••••••"
+                 autocomplete="new-password"
+                 class="w-full h-12 pl-10 pr-10 rounded-lg bg-transparent border border-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-white placeholder-gray-500" />
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <i class="fas fa-lock"></i>
+          </div>
+          <button type="button"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 toggle-password text-gray-500 hover:text-white"
+                  data-target="#password2">
+            <i class="fas fa-eye toggle-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-red-500 text-sm">{{ form.password2.errors }}</div>
+      <!-- Terms Checkbox -->
+      <div class="flex items-start">
+        <input id="accept_terms" name="accept_terms" type="checkbox" required
+               class="mt-1.5 h-4 w-4 rounded border-gray-600 bg-[#282839] text-[var(--primary-color)] focus:ring-[var(--primary-color)]" />
+        <label for="accept_terms" class="ml-2 block text-sm text-gray-300 leading-tight">
+          I agree to the
+          <a href="{% url 'terms' %}" class="text-[var(--primary-color)] hover:underline">Terms of Service</a> and
+          <a href="{% url 'privacy' %}" class="text-[var(--primary-color)] hover:underline">Privacy Policy</a>.
+        </label>
+      </div>
+      <div class="text-red-500 text-sm">{{ form.accept_terms.errors }}</div>
+    </div>
+
+      <!-- Submit Button -->
+      <button type="submit"
+              class="w-full h-12 rounded-lg bg-gradient-to-r from-green-600 to-green-700 text-white font-bold text-base hover:from-green-700 hover:to-green-800 active:scale-98 transition-all shadow-md hover:shadow-lg border border-green-500">
+        <i class="fas fa-user-plus mr-2"></i> Create Account Manually
+      </button>
+
+      <!-- Footer TOS -->
+      <p class="text-xs text-center text-gray-500 mt-4">
+        By signing up, you agree to our
+        <a href="{% url 'terms' %}" class="text-[var(--primary-color)] hover:underline">Terms</a> and
+        <a href="{% url 'privacy' %}" class="text-[var(--primary-color)] hover:underline">Privacy Policy</a>.
+      </p>
+    </form>
+  </div>
+
+  <!-- JavaScript for Toggle -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('toggle-manual-signup');
+      const manualSection = document.getElementById('manual-signup-section');
+      const toggleText = document.getElementById('signup-toggle-text');
+      const toggleIcon = document.getElementById('signup-toggle-icon');
+
+      toggleBtn.addEventListener('click', function() {
+        const isHidden = manualSection.classList.contains('hidden');
+
+        if (isHidden) {
+          manualSection.classList.remove('hidden');
+          manualSection.classList.add('animate-fade-in');
+          toggleText.textContent = 'Hide Manual Registration';
+          toggleIcon.classList.remove('fa-chevron-down');
+          toggleIcon.classList.add('fa-chevron-up');
+        } else {
+          manualSection.classList.add('hidden');
+          toggleText.textContent = 'Create Account Manually';
+          toggleIcon.classList.remove('fa-chevron-up');
+          toggleIcon.classList.add('fa-chevron-down');
+        }
+      });
+    });
+  </script>
+</div>
+
+{% endblock content %}

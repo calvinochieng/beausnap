@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found - BeauSnap</title>
+  <meta name="description" content="The page you're looking for doesn't exist.">
+  {% load static %}
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  <link rel="stylesheet" href="{% static "css/custom.css" %}">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+    <!-- Logo & Brand -->
+    <a href="/" class="flex items-center gap-3 text-white">
+      <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center gap-6 md:gap-8">
+      <nav class="flex items-center gap-6 md:gap-8">
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#pricing">Pricing</a>
+      </nav>
+    </div>
+    <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+      <span class="truncate">Get Started</span>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex flex-1 flex-col items-center justify-center min-h-screen px-4 md:px-10">
+    <div class="flex flex-col items-center gap-8 text-center max-w-2xl">
+      <div class="text-8xl md:text-9xl font-bold text-[var(--primary-color)] opacity-20">404</div>
+      <h1 class="text-white text-4xl md:text-5xl font-bold tracking-tighter">Page Not Found</h1>
+      <p class="text-white/70 text-lg md:text-xl leading-relaxed">
+        Oops! The page you're looking for doesn't exist. Don't worry, it happens to the best of us.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 mt-8">
+        <a href="/" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Go Home</span>
+        </a>
+        <a href="{% url 'editor' %}" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 border border-white/20 hover:border-white/40 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Check Our Screenshot Editor</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-white/10 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="flex items-center gap-3 text-white">
+          <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+          </svg>
+          <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+        </div>
+        <nav class="flex flex-wrap items-center justify-center gap-6">
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#pricing">Pricing</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+        </nav>
+        <p class="text-white/60 text-sm">
+            © <span id="current-year">2024</span> BeauSnap. All rights reserved.
+        </p>
+        <script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        </script>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refund Policy — BeauSnap</title>
+  <meta name="description" content="Fair, clear refund policy for BeauSnap — the screenshot beautifier for designers, devs, and creators.">
+  {% load static %}
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  <link rel="stylesheet" href="{% static "css/custom.css" %}">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background-color: #1a1a24;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background-color: #3b3b54;
+      border-radius: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background-color: #5a5a72;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header (Same as Landing) -->
+  <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+    <a href="/" class="flex items-center gap-3 text-white">
+      <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 md:gap-8">
+      <nav class="flex items-center gap-6">
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#pricing">Pricing</a>
+      </nav>
+    </div>
+
+    <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+      <span class="truncate">Get Started</span>
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center md:hidden">
+      <button id="mobile-menu-button" class="p-2.5 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition-colors" aria-label="Toggle navigation menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col bg-[#111118] border-t border-white/10 p-6 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-white text-xl font-bold">Menu</h3>
+        <button id="mobile-menu-close" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <nav class="flex flex-col space-y-6 mt-8">
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#features">Features</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#pricing">Pricing</a>
+        <button onclick="window.location.href='{% url "editor" %}'" class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Start Creating</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="layout-container px-4 md:px-10 py-16 md:py-24 max-w-4xl mx-auto">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Refund Policy</h1>
+      <p class="text-white/70 text-lg mb-12">Last updated: April 2025</p>
+
+      <div class="prose prose-invert max-w-none space-y-8 text-white/80">
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">1. Our Promise to You</h2>
+          <p>We believe in building tools you love — not just features you pay for. That's why we offer a generous, no-questions-asked refund policy.</p>
+          <p>If BeauSnap doesn't make your workflow faster, prettier, or more professional — we'll give you your money back. No fine print. No hassle.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">2. Free Trial</h2>
+          <p>You can try all premium features for <strong>14 days free</strong>. If you don't upgrade before the trial ends, your account will automatically revert to limited functionality — and you won't be charged.</p>
+          <p><strong>No credit card required to start.</strong></p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">3. Paid Plans — Full Refunds Within 7 Days</h2>
+          <p>If you purchase a one-time ($49) or yearly ($29) plan and decide it's not right for you — you have <strong>7 full days</strong> from the date of purchase to request a full refund.</p>
+          <p>This applies whether you bought it yesterday or two days ago. We don't care if you used it once or 100 times. If you're not thrilled, you get your money back.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">4. How to Request a Refund</h2>
+          <p>It's simple:</p>
+          <ol class="list-decimal pl-6 mt-2 space-y-1">
+            <li>Email us at <a href="mailto:support@beausnap.com" class="text-[var(--primary-color)] hover:underline">support@beausnap.com</a></li>
+            <li>Include your order ID or email address used at checkout</li>
+            <li>Let us know why you're leaving — we'd love to hear it (and improve)</li>
+          </ol>
+          <p>We'll process your refund within <strong>24 hours</strong>. The money will return to your original payment method. No forms. No surveys. Just a quick "thanks for giving us a shot."</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">5. What We Don't Refund</h2>
+          <p>The only exception is if you've already requested a refund previously for the same account or purchased multiple licenses under the same email. We're fair, but we're also human.</p>
+          <p>Also — since our service works entirely in your browser with no server-side storage of your screenshots, we cannot refund for "accidentally deleted work." Always export your creations!</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">6. Why This Policy Exists</h2>
+          <p>We built BeauSnap because we were tired of paying for tools that felt like black boxes. We want you to feel the same freedom.</p>
+          <p>This isn't just legal compliance — it's part of our culture. We'd rather earn your loyalty than lock you in.</p>
+          <p>If you loved it? Tell a friend. If you didn't? Tell us why — and we'll fix it.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">7. Still Have Questions?</h2>
+          <p>Our team reads every email. Reach out anytime:</p>
+          <p><a href="mailto:support@beausnap.com" class="text-[var(--primary-color)] hover:underline">support@beausnap.com</a></p>
+          <p>We reply fast. We mean it.</p>
+        </section>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-white/10 text-center">
+        <p class="text-white/60 text-sm">
+          © <span id="current-year">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-white/10 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="flex items-center gap-3 text-white">
+          <svg class="h-6 w-6 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
+          </svg>
+          <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+        </div>
+        <nav class="flex flex-wrap items-center justify-center gap-6">
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'refund' %}">Refunds</a>
+        </nav>
+        <p class="text-white/60 text-sm">
+            © <span id="current-year-footer">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    function openMenu() {
+      mobileMenu.classList.remove('translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('translate-x-0');
+      mobileMenu.classList.add('translate-x-full');
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+      document.body.style.overflow = '';
+    }
+
+    mobileMenuButton.addEventListener('click', openMenu);
+    mobileMenuClose.addEventListener('click', closeMenu);
+
+    mobileMenu.querySelectorAll('a, button').forEach(item => {
+      item.addEventListener('click', closeMenu);
+    });
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.getElementById('current-year-footer').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

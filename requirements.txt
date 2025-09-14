@@ -1,0 +1,28 @@
+# Django
+Django==5.1.1
+python-decouple==3.8
+
+# Database
+psycopg2-binary==2.9.9
+
+# Social Authentication
+social-auth-app-django==5.4.1
+social-auth-core==4.5.4
+
+# Payments (if using Paddle/Polar)
+requests==2.32.3
+
+# Development
+django-extensions==3.2.3
+
+# Production
+gunicorn==23.0.0
+whitenoise==6.7.0
+
+# Security
+django-csp==4.0
+django-secure==1.0.2
+
+# Optional: For better static file handling
+django-storages==1.14.4
+boto3==1.35.17

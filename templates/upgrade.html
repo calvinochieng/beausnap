@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upgrade to BeauSnap - Choose Your Plan</title>
+  <meta name="description" content="Choose the perfect BeauSnap plan for your screenshot editing needs.">
+  {% load static %}
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  <link rel="stylesheet" href="{% static "css/custom.css" %}">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+    <!-- Logo & Brand -->
+    <a href="/" class="flex items-center gap-3 text-white">
+      <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+    <!-- Navigation -->
+    <div class="hidden md:flex items-center gap-6 md:gap-8">
+      <nav class="flex items-center gap-6 md:gap-8">
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+      </nav>
+    </div>
+    <a href="{% url 'editor' %}" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+      <span class="truncate">Back to Editor</span>
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex flex-1 flex-col items-center px-4 md:px-10 py-16 md:py-24">
+    <div class="flex flex-col items-center gap-8 text-center max-w-4xl">
+      <!-- Trial Expired Notice -->
+      {% if access_status.trial_expired %}
+      <div class="bg-gradient-to-r from-red-500 to-orange-600 text-white px-6 py-4 rounded-xl text-center max-w-2xl">
+        <div class="flex items-center justify-center gap-3 mb-2">
+          <i class="fa-solid fa-clock text-2xl"></i>
+          <h2 class="text-xl font-bold">Your Free Trial Has Expired</h2>
+        </div>
+        <p class="text-white/90">Choose a plan below to continue creating beautiful screenshots with BeauSnap.</p>
+      </div>
+      {% elif access_status.in_trial %}
+      <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4 rounded-xl text-center max-w-2xl">
+        <div class="flex items-center justify-center gap-3 mb-2">
+          <i class="fa-solid fa-rocket text-2xl"></i>
+          <h2 class="text-xl font-bold">Upgrade Your Experience</h2>
+        </div>
+        <p class="text-white/90">You have {{ access_status.days_remaining }} days left in your trial. Upgrade now to unlock unlimited access!</p>
+      </div>
+      {% endif %}
+
+      <div class="flex flex-col gap-4 text-center">
+        <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">Choose Your Plan</h1>
+        <p class="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+          Get unlimited access to all BeauSnap features. 7-day money-back guarantee on all plans.
+        </p>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl w-full">
+
+        <!-- Yearly Plan -->
+        <div class="bg-[#1a1a24] p-8 rounded-xl border border-[#282839]">
+          <div class="text-center mb-6">
+            <h3 class="text-3xl font-bold mb-2">Yearly</h3>
+            <div class="flex items-baseline justify-center gap-1 mb-2">
+              <span class="text-5xl font-bold">$29</span>
+              <span class="text-lg text-gray-400">/year</span>
+            </div>
+            <p class="text-gray-400">Cancel anytime, returns to free plan</p>
+          </div>
+          <ul class="space-y-3 mb-8 text-left">
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Unlimited screenshot uploads</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>All effects & backgrounds</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>HiDPI & 4K export</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Save & load presets</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Priority support</span>
+            </li>
+          </ul>
+          <a href="https://gum.co/BEAUSNAP_YEARLY?wanted=true" class="block w-full text-center py-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-bold transition text-lg gumroad-button">
+            Get Yearly Access
+          </a>
+        </div>
+
+        <!-- Lifetime Plan -->
+        <div class="bg-gradient-to-b from-[#1a1a24] to-[#282839] p-8 rounded-xl border-2 border-[var(--primary-color)] relative">
+          <div class="absolute top-0 right-0 bg-[var(--primary-color)] text-white text-xs font-bold px-3 py-1 rounded-bl-lg animate-pulse">BEST VALUE</div>
+          <div class="text-center mb-6">
+            <h3 class="text-3xl font-bold mb-2">Lifetime</h3>
+            <div class="flex items-baseline justify-center gap-1 mb-2">
+              <span class="text-5xl font-bold">$49</span>
+              <span class="text-lg text-gray-400">one-time</span>
+            </div>
+            <p class="text-gray-400">Pay once, use forever</p>
+          </div>
+          <ul class="space-y-3 mb-8 text-left">
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Everything in Yearly</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>No recurring payments</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Future updates included</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Commercial usage rights</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Lifetime support</span>
+            </li>
+          </ul>
+          <a href="https://gum.co/BEAUSNAP_LIFETIME?wanted=true" class="block w-full text-center py-4 bg-[var(--primary-color)] hover:bg-blue-700 text-white rounded-lg font-bold transition text-lg gumroad-button">
+            Get Lifetime Access
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="mt-16 max-w-3xl w-full">
+        <h2 class="text-2xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <div class="bg-[#1a1a24] p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">Can I cancel my subscription?</h3>
+            <p class="text-gray-400">Yes, you can cancel your yearly subscription at any time. When you cancel, you'll return to the free plan and lose access to premium features immediately.</p>
+          </div>
+          <div class="bg-[#1a1a24] p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">Do you offer refunds?</h3>
+            <p class="text-gray-400">We offer a 7-day money-back guarantee for all purchases. Contact us within 7 days if you're not satisfied.</p>
+          </div>
+          <div class="bg-[#1a1a24] p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">What's included in the lifetime plan?</h3>
+            <p class="text-gray-400">Everything! Unlimited uploads, all features, future updates, and lifetime support. One payment, forever access.</p>
+          </div>
+          <div class="bg-[#1a1a24] p-6 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2">What happens when my trial ends?</h3>
+            <p class="text-gray-400">When your 14-day trial expires, you'll need to choose a paid plan to continue using BeauSnap. Your work will be saved, but you'll need an active subscription to access premium features.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-white/10 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="flex items-center gap-3 text-white">
+          <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+          </svg>
+          <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+        </div>
+        <nav class="flex flex-wrap items-center justify-center gap-6">
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#pricing">Pricing</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+        </nav>
+        <p class="text-white/60 text-sm">
+            © <span id="current-year">2024</span> BeauSnap. All rights reserved.
+        </p>
+        <script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        </script>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://gumroad.com/js/gumroad.js"></script>
+</body>
+</html>

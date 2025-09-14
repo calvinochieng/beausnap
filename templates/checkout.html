@@ -1,0 +1,171 @@
+{% extends "./auth/auth.html" %}
+
+{% load static %}
+
+{% block title %}Checkout - BeauSnap{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-md space-y-8 animate-fade-in">
+
+  <!-- Title -->
+  <div class="text-center">
+    <h2 class="text-3xl font-bold text-white mb-2">Complete Your Purchase</h2>
+    <p class="text-sm text-gray-400">
+      Secure payment powered by Polar
+    </p>
+  </div>
+
+  <!-- Error Message -->
+  {% if error %}
+  <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
+    <div class="flex items-center gap-3">
+      <i class="fas fa-exclamation-triangle text-red-500"></i>
+      <p class="text-red-400">{{ error }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Plan Details -->
+  <div class="bg-[#181820] p-6 rounded-xl border border-[#282839] shadow-lg">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold text-white">
+        {% if plan == 'one-time' %}
+          One-Time Purchase
+        {% else %}
+          Yearly Subscription
+        {% endif %}
+      </h3>
+      <div class="text-right">
+        <p class="text-2xl font-bold text-[var(--primary-color)]">
+          {% if plan == 'one-time' %}
+            $49
+          {% else %}
+            $29
+          {% endif %}
+        </p>
+        <p class="text-sm text-gray-400">
+          {% if plan == 'one-time' %}
+            One-time payment
+          {% else %}
+            Per year
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex items-center gap-3">
+        <i class="fas fa-check text-green-500"></i>
+        <span class="text-gray-300">Unlimited Exports</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <i class="fas fa-check text-green-500"></i>
+        <span class="text-gray-300">All Effects & Backgrounds</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <i class="fas fa-check text-green-500"></i>
+        <span class="text-gray-300">HiDPI / 4K Export</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <i class="fas fa-check text-green-500"></i>
+        <span class="text-gray-300">Save & Load Presets</span>
+      </div>
+      {% if plan == 'yearly' %}
+      <div class="flex items-center gap-3">
+        <i class="fas fa-star text-yellow-500"></i>
+        <span class="text-gray-300">Save $19 vs monthly</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Payment Preview -->
+  <div class="bg-[#181820] p-6 rounded-xl border border-[#282839] shadow-lg space-y-6">
+
+    <!-- Account Info -->
+    <div class="space-y-4">
+      <label class="block text-sm font-medium text-gray-300">
+        <i class="fas fa-user mr-2"></i> Account Information
+      </label>
+      <div class="p-4 bg-[#1c1c27] rounded-lg">
+        <p class="text-white font-medium">{{ user.email }}</p>
+        <p class="text-gray-400 text-sm">Payment will be processed for this account</p>
+      </div>
+    </div>
+
+    <!-- Security Notice -->
+    <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+      <div class="flex items-center gap-3">
+        <i class="fas fa-shield-alt text-green-500"></i>
+        <div>
+          <p class="text-white font-medium">Secure Checkout</p>
+          <p class="text-gray-300 text-sm">You'll be redirected to Polar's secure payment page</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Continue to Payment -->
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit"
+            class="w-full h-12 rounded-lg bg-[var(--primary-color)] text-white font-bold text-base hover:bg-opacity-90 active:scale-98 transition-all shadow-md hover:shadow-lg">
+      <i class="fas fa-credit-card mr-2"></i>
+      {% if plan == 'one-time' %}
+        Continue to Payment - $49
+      {% else %}
+        Continue to Payment - $29/year
+      {% endif %}
+    </button>
+  </form>
+
+  <!-- Trust Indicators -->
+  <div class="text-center space-y-2">
+    <div class="flex items-center justify-center gap-4 text-gray-400 text-sm">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-lock"></i>
+        <span>SSL Secured</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="fas fa-shield-alt"></i>
+        <span>PCI Compliant</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="fab fa-stripe"></i>
+        <span>Powered by Polar</span>
+      </div>
+    </div>
+    <p class="text-xs text-gray-500">
+      You won't be charged until you complete the payment on Polar's secure page
+    </p>
+  </div>
+
+  <!-- Back to Pricing -->
+  <div class="text-center">
+    <a href="#pricing" class="text-[var(--primary-color)] hover:underline text-sm">
+      <i class="fas fa-arrow-left mr-1"></i> Back to Pricing
+    </a>
+  </div>
+</div>
+
+<script>
+// Payment method selection
+document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    // Remove selected class from all
+    document.querySelectorAll('[id$="-payment"]').forEach(div => {
+      div.classList.remove('border-[var(--primary-color)]', 'ring-2', 'ring-[var(--primary-color)]');
+    });
+
+    // Add selected class to current
+    if (this.checked) {
+      this.closest('[id$="-payment"]').classList.add('border-[var(--primary-color)]', 'ring-2', 'ring-[var(--primary-color)]');
+    }
+  });
+});
+
+// Initialize selected payment method
+document.querySelector('input[name="payment_method"]:checked').dispatchEvent(new Event('change'));
+</script>
+{% endblock content %}

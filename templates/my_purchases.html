@@ -1,0 +1,91 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block title %}My Purchases - BeauSnap{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+  <div class="flex flex-col items-center gap-8">
+    <div class="flex flex-col gap-4 text-center max-w-3xl">
+      <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter">My Purchases</h1>
+      <p class="text-white/70 text-lg md:text-xl leading-relaxed">
+        View and manage your license subscriptions.
+      </p>
+    </div>
+
+    <div class="w-full max-w-4xl">
+      {% if licenses %}
+        <div class="grid gap-4">
+          {% for license in licenses %}
+            <div class="bg-[#1c1c27] rounded-xl border border-white/10 p-6 shadow-lg">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <h3 class="text-white text-lg font-bold">
+                      {{ license.get_plan_type_display }}
+                    </h3>
+                    {% if license.is_valid %}
+                      <span class="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-1 rounded-full">
+                        <i class="fas fa-check-circle mr-1"></i> Active
+                      </span>
+                    {% else %}
+                      <span class="bg-red-500/20 text-red-400 text-xs font-bold px-2 py-1 rounded-full">
+                        <i class="fas fa-times-circle mr-1"></i> Expired
+                      </span>
+                    {% endif %}
+                  </div>
+                  <p class="text-gray-400 text-sm mb-1">
+                    <i class="fas fa-envelope mr-2"></i> {{ license.buyer_email }}
+                  </p>
+                  <p class="text-gray-400 text-sm">
+                    <i class="fas fa-key mr-2"></i> License: {{ license.license_key|truncatechars:20 }}
+                  </p>
+                  {% if license.expires_at %}
+                    <p class="text-gray-400 text-sm mt-1">
+                      <i class="fas fa-calendar mr-2"></i>
+                      Expires: {{ license.expires_at|date:"M j, Y" }}
+                    </p>
+                  {% endif %}
+                </div>
+                <div class="flex flex-col gap-2">
+                  <span class="text-xs text-gray-500">
+                    Purchased: {{ license.created_at|date:"M j, Y" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="bg-[#1c1c27] rounded-xl border border-white/10 p-8 text-center shadow-lg">
+          <div class="flex flex-col items-center gap-4">
+            <i class="fas fa-shopping-cart text-4xl text-gray-500"></i>
+            <h3 class="text-white text-xl font-bold">No purchases yet</h3>
+            <p class="text-gray-400 text-base">
+              You haven't purchased any licenses yet. Get started with premium features!
+            </p>
+            <a
+              href="{% url 'checkout_one_time' %}"
+              class="inline-flex items-center gap-2 rounded-lg bg-[var(--primary-color)] hover:bg-opacity-90 text-white font-bold px-6 py-3 transition-colors"
+            >
+              <i class="fas fa-star"></i>
+              Upgrade Now
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="mt-8 text-center">
+        <a
+          href="{% url 'redeem_license' %}"
+          class="inline-flex items-center gap-2 text-[var(--primary-color)] hover:underline"
+        >
+          <i class="fas fa-key"></i>
+          Redeem License Key
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — BeauSnap</title>
+  <meta name="description" content="How BeauSnap collects, uses, and protects your data when you edit screenshots.">
+  {% load static %}
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background-color: #1a1a24;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background-color: #3b3b54;
+      border-radius: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background-color: #5a5a72;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header (Same as Landing) -->
+  <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+    <a href="/" class="flex items-center gap-3 text-white">
+      <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 md:gap-8">
+      <nav class="flex items-center gap-6">
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/#features">Features</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/#pricing">Pricing</a>
+      </nav>
+    </div>
+
+    <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+      <span class="truncate">Get Started</span>
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center md:hidden">
+      <button id="mobile-menu-button" class="p-2.5 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition-colors" aria-label="Toggle navigation menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col bg-[#111118] border-t border-white/10 p-6 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-white text-xl font-bold">Menu</h3>
+        <button id="mobile-menu-close" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <nav class="flex flex-col space-y-6 mt-8">
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#features">Features</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#pricing">Pricing</a>
+        <button onclick="window.location.href='{% url "editor" %}'" class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Start Creating</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="layout-container px-4 md:px-10 py-16 md:py-24 max-w-4xl mx-auto">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Privacy Policy</h1>
+      <p class="text-white/70 text-lg mb-12">Last updated: September 2025</p>
+
+      <div class="prose prose-invert max-w-none space-y-8 text-white/80">
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">1. Information We Collect</h2>
+          <p>We only collect what's necessary to deliver and improve BeauSnap:</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li><strong>Screenshot Images</strong>: Uploaded by you for editing. These are processed locally in your browser and never stored on our servers unless you explicitly save a preset or export.</li>
+            <li><strong>Usage Data</strong>: How often you use effects, which backgrounds you choose, and feature engagement (anonymized).</li>
+            <li><strong>Account Info</strong> (if registered): Email address (for login and support), payment info (via our payment gateway providers — we never see it).</li>
+            <li><strong>Cookies</strong>: A single session cookie to remember your preferences (e.g., theme, last used effect). No tracking cookies.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">2. How We Use Your Information</h2>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li>To provide, maintain, and improve the BeauSnap editor</li>
+            <li>To respond to your support requests</li>
+            <li>To detect and prevent fraud or abuse</li>
+            <li>To personalize your experience (e.g., remembering your favorite background)</li>
+          </ul>
+          <p>We do NOT sell your data. We do NOT share your screenshots with third parties.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">3. Data Storage & Security</h2>
+          <p>All image processing happens client-side — in your browser. We do not store your raw screenshots unless you choose to save them to your account.</p>
+          <p>Paid accounts are linked to encrypted email addresses via our payment gateway providers. We use industry-standard TLS encryption for all connections.</p>
+          <p>You can delete your account and associated data at any time via Settings → Delete Account.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">4. Third Parties</h2>
+          <p>We use trusted third-party services:</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li><strong>Payment Gateway Providers</strong>: For secure payment processing. They handle all financial data.</li>
+            <li><strong>Cloudflare</strong>: For DDoS protection and performance optimization.</li>
+            <li><strong>Analytics Provider (Optional)</strong>: Only if you opt in during onboarding. We use anonymized, aggregated data.</li>
+          </ul>
+          <p>These providers are contractually prohibited from using your data for their own purposes.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">5. Children's Privacy</h2>
+          <p>BeauSnap is not intended for users under 13. We do not knowingly collect personal information from children.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">6. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li>Access, correct, or delete your data</li>
+            <li>Opt out of analytics (toggle in Settings)</li>
+            <li>Download a copy of your account data</li>
+            <li>Withdraw consent at any time</li>
+          </ul>
+          <p>Contact us at <a href="mailto:support@beausnap.com" class="text-[var(--primary-color)] hover:underline">support@beausnap.com</a> to exercise these rights.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">7. Screenshot Responsibility</h2>
+          <p>BeauSnap allows users to edit and, in some cases, capture screenshots directly.
+          You are solely responsible for the content you choose to capture or upload.
+          Please ensure you have the right to take, use, and share any screenshot you process with BeauSnap.
+          BeauSnap is not liable for any misuse, copyright infringement, or unlawful activity that arises from the screenshots you create or distribute.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">8. International Transfers</h2>
+          <p>Our servers are located in the United States. By using BeauSnap, you consent to the transfer and storage of your information in the U.S.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">9. Changes to This Policy</h2>
+          <p>We may update this policy periodically. We'll notify active users via email and post the updated version here. Continued use means you accept the changes.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">10. Contact Us</h2>
+          <p>If you have questions about this Privacy Policy, please reach out to our team:</p>
+          <p><a href="mailto:support@beausnap.com" class="text-[var(--primary-color)] hover:underline">support@beausnap.com</a></p>
+          <p>BeauSnap<br />
+             Athi River, Kenya<br />
+             San Francisco, CA (Global Office)</p>
+        </section>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-white/10 text-center">
+        <p class="text-white/60 text-sm">
+          © <span id="current-year">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-white/10 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="flex items-center gap-3 text-white">
+          <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+          </svg>
+          <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+        </div>
+        <nav class="flex flex-wrap items-center justify-center gap-6">
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'refund' %}">Refunds</a>
+        </nav>
+        <p class="text-white/60 text-sm">
+            © <span id="current-year-footer">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    function openMenu() {
+      mobileMenu.classList.remove('translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('translate-x-0');
+      mobileMenu.classList.add('translate-x-full');
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+      document.body.style.overflow = '';
+    }
+
+    mobileMenuButton.addEventListener('click', openMenu);
+    mobileMenuClose.addEventListener('click', closeMenu);
+
+    mobileMenu.querySelectorAll('a, button').forEach(item => {
+      item.addEventListener('click', closeMenu);
+    });
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.getElementById('current-year-footer').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

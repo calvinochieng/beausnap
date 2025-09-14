@@ -1,0 +1,11 @@
+# 1. Install Python dependencies
+pip install -r requirements.txt
+
+# 2. Build Tailwind CSS for production
+python manage.py tailwind build
+
+# 3. Run migrations
+python manage.py migrate
+
+# 4. Collect static files (includes Tailwind CSS)
+python manage.py collectstatic --noinput

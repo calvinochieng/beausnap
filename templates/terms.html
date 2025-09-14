@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — BeauSnap</title>
+  <meta name="description" content="Legal terms for using BeauSnap — the screenshot beautifier for creators, designers, and developers.">
+  {% load static %}
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  <link rel="stylesheet" href="{% static "css/custom.css" %}">
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background-color: #1a1a24;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background-color: #3b3b54;
+      border-radius: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background-color: #5a5a72;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Header (Same as Landing) -->
+  <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+    <a href="/" class="flex items-center gap-3 text-white">
+      <div class="size-7 md:size-8 text-[var(--primary-color)]">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 md:gap-8">
+      <nav class="flex items-center gap-6">
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/#features">Features</a>
+        <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/#pricing">Pricing</a>
+      </nav>
+    </div>
+
+    <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+      <span class="truncate">Get Started</span>
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <div class="flex items-center md:hidden">
+      <button id="mobile-menu-button" class="p-2.5 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition-colors" aria-label="Toggle navigation menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col bg-[#111118] border-t border-white/10 p-6 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-white text-xl font-bold">Menu</h3>
+        <button id="mobile-menu-close" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <nav class="flex flex-col space-y-6 mt-8">
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="/">Home</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#features">Features</a>
+        <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#pricing">Pricing</a>
+        <button onclick="window.location.href='{% url "editor" %}'" class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Start Creating</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="layout-container px-4 md:px-10 py-16 md:py-24 max-w-4xl mx-auto">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">Terms of Service</h1>
+      <p class="text-white/70 text-lg mb-12">Last updated: September 2025</p>
+
+      <div class="prose prose-invert max-w-none space-y-8 text-white/80">
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">1. Acceptance of Terms</h2>
+          <p>By accessing or using BeauSnap ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree with any part of these Terms, you must not use the Service.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">2. Use of the Service</h2>
+          <p>BeauSnap allows users to upload screenshots and apply visual enhancements such as backgrounds, shadows, glows, and 3D effects. You retain all rights to your original content. However, by uploading content to BeauSnap, you grant us a non-exclusive, worldwide license to process, store, and display your screenshots solely for the purpose of providing and improving our service.</p>
+          <p>You agree not to:</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li>Upload illegal, offensive, or copyrighted material without permission</li>
+            <li>Use BeauSnap to generate misleading or deceptive visuals</li>
+            <li>Reverse engineer, decompile, or disassemble the Service</li>
+            <li>Use the Service for automated scraping, spam, or bot activity</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">3. Screenshot Functionality</h2>
+          <p>BeauSnap provides tools that allow you to capture screenshots directly through our website interface. You are solely responsible for the content you choose to capture, upload, or process using our service.</p>
+          <p>When using BeauSnap's screenshot functionality, you must ensure that:</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1">
+            <li>You have the legal right to capture and use the content displayed on your screen</li>
+            <li>You do not capture sensitive, confidential, or proprietary information without authorization</li>
+            <li>You comply with all applicable laws and regulations regarding content capture and usage</li>
+            <li>You respect the intellectual property rights of others</li>
+          </ul>
+          <p>BeauSnap is not liable for any misuse of the screenshot functionality or any consequences arising from the content you choose to capture or distribute.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">4. Intellectual Property</h2>
+          <p>BeauSnap owns all rights to the software, design, trademarks, logos, and user interface elements of this platform. The visual effects, templates, and backgrounds provided are licensed for personal and commercial use with your uploaded content — but may not be extracted, resold, or redistributed independently.</p>
+          <p>Your exported images remain your property. We do not claim ownership over your final creations.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">5. Free Trial & Paid Plans</h2>
+          <p>We offer a 14-day free trial of all premium features. After the trial ends, your account will revert to limited functionality unless you purchase a plan.</p>
+          <p>Our one-time ($49) and yearly ($29) plans provide permanent access to all features. Subscriptions auto-renew unless canceled at least 24 hours before renewal. No refunds are issued for partial periods.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">6. Data & Privacy</h2>
+          <p>We take your privacy seriously. Please review our <a href="{% url 'privacy' %}" class="text-[var(--primary-color)] hover:underline">Privacy Policy</a> for details on how we collect, use, and protect your data. We do not sell your personal information.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">7. Limitation of Liability</h2>
+          <p>BeauSnap is provided "as is." We make no warranties regarding accuracy, reliability, or suitability of exported images for any specific purpose. We are not liable for any indirect, incidental, or consequential damages arising from your use of the Service.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">8. Changes to These Terms</h2>
+          <p>We may update these Terms from time to time. The latest version will always be posted here with a revised "Last Updated" date. Continued use of the Service constitutes acceptance of the revised terms.</p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white border-b border-white/10 pb-3">9. Contact Us</h2>
+          <p>If you have questions about these Terms, please contact us at <a href="mailto:support@beausnap.com" class="text-[var(--primary-color)] hover:underline">support@beausnap.com</a>.</p>
+        </section>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-white/10 text-center">
+        <p class="text-white/60 text-sm">
+          © <span id="current-year">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t border-white/10 mt-24">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+            </svg>
+          <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+        </div>
+        <nav class="flex flex-wrap items-center justify-center gap-6">
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+          <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'refund' %}">Refunds</a>
+        </nav>
+        <p class="text-white/60 text-sm">
+            © <span id="current-year-footer">2025</span> BeauSnap. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    function openMenu() {
+      mobileMenu.classList.remove('translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('translate-x-0');
+      mobileMenu.classList.add('translate-x-full');
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+      document.body.style.overflow = '';
+    }
+
+    mobileMenuButton.addEventListener('click', openMenu);
+    mobileMenuClose.addEventListener('click', closeMenu);
+
+    mobileMenu.querySelectorAll('a, button').forEach(item => {
+      item.addEventListener('click', closeMenu);
+    });
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.getElementById('current-year-footer').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

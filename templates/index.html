@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeauSnap — Turn Boring Screenshots into Stunning Visuals</title>
+  <meta name="description" content="No design skills needed. Add glow, shadows, 3D effects & custom backgrounds to screenshots in seconds. Free to start.">
+  {% load static %}
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1313ec">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
+  <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+  <!-- Fonts -->
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  {% comment %} <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script> {% endcomment %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Local Stylesheet -->
+  <link rel="stylesheet" href="{% static "css/custom.css" %}">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #1313ec;
+    }
+    .slider-thumb::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background-color: #1a1a24;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background-color: #3b3b54;
+      border-radius: 4px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background-color: #5a5a72;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Space Grotesk"', '"Noto Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ce js Ls Te Fs Ds capture Ye calculateEventProperties Us register register_once register_for_session unregister unregister_for_session Ws getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Bs zs createPersonProfile Hs Ms Gs opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing Ns debug L qs getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_Y9GXAo40AwPd4h3SEqZPmcL2DFZQw4Ae5t9WYPaOEhf', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+  </script>
+</head>
+<body class="bg-[#111118] text-white overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+
+  <!-- Hero Section -->
+  <div class="relative flex min-h-screen flex-col">
+    <div class="layout-container flex h-full grow flex-col">
+      <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/10 px-3 md:px-10 py-3 md:py-3">
+
+        <!-- Logo & Brand -->
+        <a href="/" class="flex items-center gap-3 text-white">
+          <div class="size-7 md:size-8 text-[var(--primary-color)]">
+            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h2 class="text-white text-xl md:text-2xl font-bold leading-tight tracking-tighter hidden md:block">BeauSnap</h2>
+        </a>
+
+        <!-- Desktop Navigation & CTA (Visible on md and up) -->
+        <div class="hidden md:flex items-center gap-6 md:gap-8">
+          <nav class="flex items-center gap-6 md:gap-8">
+            <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+            <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/#pricing">Pricing</a>
+            <a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#testimonials">Testimonials</a>
+          </nav>
+        </div>
+        <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 md:h-10 px-4 md:px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-sm md:text-base font-bold leading-normal tracking-wide transition-colors">
+          <span class="truncate">Get Started</span>
+        </button>
+
+        <!-- Mobile Menu Button (Visible only on small screens) -->
+        <div class="flex items-center md:hidden">
+          <button id="mobile-menu-button" class="p-2.5 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] transition-colors" aria-label="Toggle navigation menu">
+            <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default, slides in on small screens) -->
+        <div id="mobile-menu" class="fixed inset-0 z-50 flex flex-col bg-[#111118] border-t border-white/10 p-6 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-white text-xl font-bold">Menu</h3>
+            <button id="mobile-menu-close" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#282839] focus:outline-none">
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </div>
+          <nav class="flex flex-col space-y-6 mt-8">
+            <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#features">Features</a>
+            <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#pricing">Pricing</a>
+            <a class="text-white/80 hover:text-white text-lg font-medium leading-normal transition-colors py-2 border-b border-white/10" href="#testimonials">Testimonials</a>
+            <button onclick="window.location.href='{% url "editor" %}'" class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors">
+              <span class="truncate">Get Started</span>
+            </button>
+          </nav>
+        </div>
+
+      </header>
+
+      <main class="flex flex-1 flex-col items-center">
+        <!-- Hero -->
+        <section class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+          <div class="flex flex-col items-center justify-center gap-8 text-center">
+            <div class="flex flex-col gap-4 text-center">
+              <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">Turn <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Boring Screenshots</span> into <span class="text-[var(--primary-color)]">Stunning Visuals</span></h1>
+              <h2 class="text-white/70 text-lg md:text-xl lg:text-2xl font-normal leading-relaxed max-w-4xl mx-auto">
+                No design skills. No complicated tools. Just drag, click, and wow your audience.
+              </h2>
+            </div>
+            <button onclick="window.location.href='{% url "editor" %}'" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors shadow-lg hover:shadow-xl">
+              <span class="truncate">Start Creating</span>
+            </button>
+            <div class="mt-8 rounded-2xl border-4 border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
+              <img alt="A screenshot of the BeauSnap editor interface." class="w-full h-auto" src="{% static 'app.jpeg' %}" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+          <div class="flex flex-col items-center gap-12">
+            <div class="flex flex-col gap-4 text-center max-w-3xl">
+              <h2 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter">Why Many creators use BeauSnap</h2>
+              <p class="text-white/70 text-lg md:text-xl leading-relaxed">BeauSnap offers a range of powerful features to elevate your screenshots.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-[#1c1c27] p-6 text-center items-center">
+                <div class="rounded-full bg-[var(--primary-color)]/20 p-3">
+                  <i class="fa-solid fa-palette text-[var(--primary-color)] text-3xl"></i>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h3 class="text-white text-xl font-bold">Custom Backgrounds</h3>
+                  <p class="text-white/60 text-base font-normal leading-relaxed">Choose from 100+ gradients, abstract art, or solid brand colors.</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-[#1c1c27] p-6 text-center items-center">
+                <div class="rounded-full bg-[var(--primary-color)]/20 p-3">
+                  <i class="fa-solid fa-sliders text-[var(--primary-color)] text-3xl"></i>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h3 class="text-white text-xl font-bold">1-Click Effects</h3>
+                  <p class="text-white/60 text-base font-normal leading-relaxed">Glow, Float, 3D Skew — applied instantly. No layers, no timelines.</p>
+                </div>
+              </div>
+              <div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-[#1c1c27] p-6 text-center items-center">
+                <div class="rounded-full bg-[var(--primary-color)]/20 p-3">
+                  <i class="fa-solid fa-download text-[var(--primary-color)] text-3xl"></i>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <h3 class="text-white text-xl font-bold">Export Like a Pro</h3>
+                  <p class="text-white/60 text-base font-normal leading-relaxed">PNG, JPEG, HiDPI, Copy to Clipboard — all with one click.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing" class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+        <div class="flex flex-col items-center gap-12">
+            <div class="flex flex-col gap-4 text-center max-w-3xl">
+            <h2 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter">
+                Simple Plans. Same Powerful Features.
+            </h2>
+            <p class="text-white/70 text-lg md:text-xl leading-relaxed">
+                Every plan includes the full BeauSnap toolkit. Just choose how you want to pay.
+            </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Free Trial -->
+            <div class="bg-[#1a1a24] p-8 rounded-xl border border-[#282839]">
+                <h3 class="text-2xl font-bold mb-2">Free Trial</h3>
+                <p class="text-4xl font-bold mb-1">14 Days</p>
+                <p class="text-gray-400 mb-6">Full Access. Cancel Anytime.</p>
+                <ul class="space-y-3 mb-6 text-left">
+                <li>✓ Unlimited Exports</li>
+                <li>✓ All Effects & Backgrounds</li>
+                <li>✓ HiDPI / 4K Export</li>
+                <li>✓ Save & Load Presets</li>
+                </ul>
+                <button onclick="window.location.href='#app'" class="block w-full text-center py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-bold transition">
+                Start Free
+                </button>
+            </div>
+
+            <!-- One-Time -->
+            <div class="bg-gradient-to-b from-[#1a1a24] to-[#282839] p-8 rounded-xl border-2 border-[var(--primary-color)] relative">
+                <div class="absolute top-0 right-0 bg-[var(--primary-color)] text-white text-xs font-bold px-3 py-1 rounded-bl-lg animate-pulse">BEST VALUE</div>
+                <h3 class="text-2xl font-bold mb-2">Lifetime</h3>
+                <p class="text-4xl font-bold mb-1">$49</p>
+                <p class="text-gray-400 mb-6">Own BeauSnap Forever</p>
+                <ul class="space-y-3 mb-6 text-left">
+                <li>✓ Unlimited Exports</li>
+                <li>✓ All Effects & Backgrounds</li>
+                <li>✓ HiDPI / 4K Export</li>
+                <li>✓ Save & Load Presets</li>
+                </ul>
+                <a href="https://gum.co/BEAUSNAP_LIFETIME?wanted=true" class="block w-full text-center py-3 bg-[var(--primary-color)] hover:bg-blue-700 text-white rounded-lg font-bold transition gumroad-button">
+                Unlock Forever
+                </a>
+            </div>
+
+            <!-- Yearly -->
+            <div class="bg-[#1a1a24] p-8 rounded-xl border border-[#282839]">
+                <h3 class="text-2xl font-bold mb-2">Yearly</h3>
+                <p class="text-4xl font-bold mb-1">$29</p>
+                <p class="text-gray-400 mb-6">Per Year · Cancel Anytime</p>
+                <ul class="space-y-3 mb-6 text-left">
+                <li>✓ Unlimited Exports</li>
+                <li>✓ All Effects & Backgrounds</li>
+                <li>✓ HiDPI / 4K Export</li>
+                <li>✓ Save & Load Presets</li>
+                </ul>
+                <a href="https://gum.co/BEAUSNAP_YEARLY?wanted=true" class="block w-full text-center py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-bold transition gumroad-button">
+                Go Yearly
+                </a>
+            </div>
+            </div>
+        </div>
+        </section>
+
+
+        <!-- Final CTA -->
+        <section class="w-full max-w-7xl px-4 md:px-10 py-16 md:py-24">
+          <div class="flex flex-col items-center gap-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center">Ready to Make Your Screenshots Shine?</h2>
+            <p class="text-xl text-white/80 text-center">No signup. No watermarks. Just pure, beautiful screenshot magic.</p>
+            <a href='{% url "editor" %}' class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-[var(--primary-color)] hover:bg-opacity-90 text-white text-base font-bold leading-normal tracking-wide transition-colors shadow-lg hover:shadow-xl">
+              <i class="fa-solid fa-star mr-2"></i>
+              <span class="truncate">Launch BeauSnap Now</span>
+            </a>
+            <p class="text-sm text-white/60 mt-4">Used by designers at Google, Figma, and startups worldwide.</p>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="w-full border-t border-white/10 mt-24">
+        <div class="max-w-7xl mx-auto px-4 md:px-10 py-8">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="flex items-center gap-3 text-white">
+
+              <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
+              </svg>
+              <h2 class="text-white text-lg font-bold">BeauSnap</h2>
+            </div>
+            <nav class="flex flex-wrap items-center justify-center gap-6">
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#features">Features</a>
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#pricing">Pricing</a>
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#testimonials">Testimonials</a>
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'terms' %}">Terms</a>
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'privacy' %}">Privacy</a>
+              <a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="{% url 'refund' %}">Refunds</a>
+            </nav>
+            <p class="text-white/60 text-sm">
+                © <span id="current-year">2025</span> BeauSnap. All rights reserved.
+            </p>
+            <script>
+                document.getElementById('current-year').textContent = new Date().getFullYear();
+            </script>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  
+  <script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    function openMenu() {
+      mobileMenu.classList.remove('translate-x-full');
+      mobileMenu.classList.add('translate-x-0');
+      menuIcon.classList.remove('fa-bars');
+      menuIcon.classList.add('fa-times');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('translate-x-0');
+      mobileMenu.classList.add('translate-x-full');
+      menuIcon.classList.remove('fa-times');
+      menuIcon.classList.add('fa-bars');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    mobileMenuButton.addEventListener('click', openMenu);
+    mobileMenuClose.addEventListener('click', closeMenu);
+
+    // Close menu when clicking a link
+    mobileMenu.querySelectorAll('a, button').forEach(item => {
+      item.addEventListener('click', closeMenu);
+    });
+
+    // Close menu if user clicks outside (optional)
+    mobileMenu.addEventListener('click', function(e) {
+      if (e.target === mobileMenu) {
+        closeMenu();
+      }
+    });
+  </script>
+
+  <script>
+    // Show App when user clicks "Start Creating"
+    document.querySelectorAll('button[onclick*="#app"]').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Hide landing page
+        document.querySelector('.layout-container').classList.add('hidden');
+        // Show app
+        document.getElementById('app').classList.remove('hidden');
+        // Scroll to top
+        window.scrollTo(0, 0);
+      });
+    });
+  </script>
+
+  <!-- Gumroad Script -->
+  <script src="https://gumroad.com/js/gumroad.js"></script>
+
+</body>
+</html>
