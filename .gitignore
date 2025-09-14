@@ -56,3 +56,4 @@ yarn-error.log*
 venv/
 env/
 ENV/
+db.sqlite3
