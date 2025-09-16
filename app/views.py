@@ -1,9 +1,10 @@
 import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.http import JsonResponse, HttpResponseForbidden
 from django.utils import timezone
+from django.urls import reverse
 from app.forms import CustomUserCreationForm, CustomAuthenticationForm
 
 def index(request):
@@ -22,7 +23,7 @@ def signin(request):
 
             user = form.get_user()
             login(request, user)
-            next_url = request.POST.get('next') or request.GET.get('next') or 'editor'
+            next_url = request.POST.get('next') or request.GET.get('next') or reverse('index') + '#pricing'
             return redirect(next_url)
     else:
         form = CustomAuthenticationForm(request)
@@ -35,7 +36,7 @@ def signup(request):
             user = form.save()
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return redirect('index')
+            return redirect(reverse('index') + '#pricing')
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth/signup.html', {'form': form})
@@ -173,10 +174,10 @@ def gumroad_webhook(request):
     # Do NOT override login email → store buyer email in License
     user = request.user if request.user.is_authenticated else None
 
-    License.objects.update_or_create(
+    license, created = License.objects.update_or_create(
         gumroad_purchase_id=purchase_id,
         defaults={
-            "user": user,   # may remain null until redeemed
+            "user": None,   # will try to associate below
             "license_key": license_key,
             "buyer_email": buyer_email,
             "plan_type": plan_type,
@@ -184,6 +185,16 @@ def gumroad_webhook(request):
             "expires_at": parse_datetime(subscription_end_date) if subscription_end_date else None,
         }
     )
+    
+    # Auto-associate license to user if email matches an existing account
+    if buyer_email:
+        try:
+            matching_user = get_user_model().objects.get(email=buyer_email)
+            license.user = matching_user
+            license.save()
+        except get_user_model().DoesNotExist:
+            pass  # License remains unassociated until manual redeem
+    
     # get all the data for debu
     print(data)
     return JsonResponse({"status": "ok"})
