@@ -3,8 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BeauSnap — Turn Boring Screenshots into Stunning Visuals</title>
-  <meta name="description" content="No design skills needed. Add glow, shadows, 3D effects & custom backgrounds to screenshots in seconds. Free to start.">
+  {% load static %}
+  <title>BeauSnap: Screenshot Enhancer | Add Glow, 3D Effects & Custom Backgrounds</title>
+  <meta name="description" content="Transform boring screenshots into stunning visuals with BeauSnap. Easy tools for glows, shadows, 3D effects, and 100+ backgrounds. No design skills needed – start free!">
+  <!-- SEO Enhancements -->
+  <meta name="keywords" content="screenshot enhancer, 3D screenshots, glow effects, custom backgrounds, beausnap">
+
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="BeauSnap: Screenshot Enhancer | Add Glow, 3D Effects & Custom Backgrounds">
+  <meta property="og:description" content="Transform boring screenshots into stunning visuals with BeauSnap. Easy tools for glows, shadows, 3D effects, and 100+ backgrounds. No design skills needed – start free!">
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'app.jpeg' %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BeauSnap">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BeauSnap: Screenshot Enhancer | Add Glow, 3D Effects & Custom Backgrounds">
+  <meta name="twitter:description" content="Transform boring screenshots into stunning visuals with BeauSnap. Easy tools for glows, shadows, 3D effects, and 100+ backgrounds. No design skills needed – start free!">
+  <meta name="twitter:image" content="https://{{ request.get_host }}{% static 'app.jpeg' %}">
+
+  <!-- Preload Hero Image -->
+  <link rel="preload" href="{% static 'app.jpeg' %}" as="image">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BeauSnap",
+    "description": "Screenshot enhancement tool with effects and backgrounds",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "image": "https://{{ request.get_host }}{% static 'app.jpeg' %}"
+  }
+  </script>
+
   {% load static %}
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#1313ec">
@@ -140,7 +181,7 @@
               <span class="truncate">Start Creating</span>
             </a>
             <div class="mt-8 rounded-2xl border-4 border-white/10 shadow-2xl shadow-black/50 overflow-hidden">
-              <img alt="A screenshot of the BeauSnap editor interface." class="w-full h-auto" src="{% static 'app.jpeg' %}" />
+              <img alt="BeauSnap screenshot enhancer editor with 3D effects and custom backgrounds" class="w-full h-auto" loading="eager" src="{% static 'app.jpeg' %}" />
             </div>
           </div>
         </section>
