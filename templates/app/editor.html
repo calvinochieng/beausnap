@@ -46,6 +46,13 @@
     :root {
       --primary-color: #1313ec;
     }
+
+    /* Protected elements - disabled for non-authenticated users */
+    {% if not user.is_authenticated%}
+        [data-protected] {
+        pointer-events: none;
+        }
+    {%endif%}
     .slider-thumb::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -116,6 +123,8 @@
         font-size: 12px;
         box-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
+
+
   </style>
 
 
@@ -307,7 +316,10 @@
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section" style="position: relative;">
+                {% if not user.is_authenticated %}
+                <div style="background: transparent;position:absolute;top: 0;left: 0;bottom: 0;right: 0;z-index: 100; cursor: pointer;" onclick="window.location.href='{% url 'signup' %}'" title="Login to access premium features"></div>
+                {% endif %}
                 <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Box Style</h3>
                 <div class="border-b border-[#3b3b54] mb-3 md:mb-4">
                     <nav class="-mb-px flex gap-4 md:gap-6 text-xs md:text-sm font-medium overflow-x-auto pb-1">
@@ -318,33 +330,56 @@
                     <a id="float-tab" class="flex items-center gap-1 md:gap-2 border-b-2 border-transparent text-[#9d9db9] hover:text-white hover:border-white py-2 transition-colors whitespace-nowrap" href="#">
                         <i class="fa-solid fa-cube text-xs md:text-base"></i>
                         <span>Float</span>
+                        <i class="fa-solid fa-crown" style="color: #ffd700; margin-left: 4px;"></i>
                     </a>
                     </nav>
                 </div>
 
                 <!-- Glow Options (default active) -->
                 <div id="glow-presets" class="glow-options-container flex flex-wrap flex-row gap-2 md:gap-3">
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="none" title="None">None</button>  
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="soft-blue" title="Soft Blue" style="--preset-color:#2196F3; box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.5);"></button>
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="magenta-pop" title="Magenta Pop" style="--preset-color:#FF00FF; box-shadow: 0 0 10px 2px rgba(236, 72, 153, 0.5);"></button>
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="electric-cyan" title="Electric Cyan" style="--preset-color:#00E5FF; box-shadow: 0 0 10px 2px rgba(34, 211, 238, 0.5);"></button>
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="warm-amber" title="Warm Amber" style="--preset-color:#FFC107; box-shadow: 0 0 10px 2px rgba(255, 193, 7, 0.5);"></button>
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="deep-purple" title="Deep Purple" style="--preset-color:#7C4DFF; box-shadow: 0 0 10px 2px rgba(124, 77, 255, 0.5);"></button>
-                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="outer-halo" title="Outer Halo" style="--preset-color:#ffffff; box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);"></button>
-                    <button class="glow-preset flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" title="Customize">
-                    <i class="fa-solid fa-palette text-sm md:text-base"></i>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="none" title="None">None</button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="soft-blue" title="Soft Blue" style="--preset-color:#2196F3; box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="magenta-pop" title="Magenta Pop" style="--preset-color:#FF00FF; box-shadow: 0 0 10px 2px rgba(236, 72, 153, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="electric-cyan" title="Electric Cyan" style="--preset-color:#00E5FF; box-shadow: 0 0 10px 2px rgba(34, 211, 238, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="warm-amber" title="Warm Amber" style="--preset-color:#FFC107; box-shadow: 0 0 10px 2px rgba(255, 193, 7, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="deep-purple" title="Deep Purple" style="--preset-color:#7C4DFF; box-shadow: 0 0 10px 2px rgba(124, 77, 255, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset w-8 h-8 md:w-10 md:h-10 rounded-lg border border-white/10" data-key="outer-halo" title="Outer Halo" style="--preset-color:#ffffff; box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                    </button>
+                    <button class="glow-preset flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" title="Customize" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 10px;"></i>
+                        <i class="fa-solid fa-palette text-sm md:text-base"></i>
                     </button>
                 </div>
 
                 <!-- Float Options (hidden by default) -->
                 <div id="float-presets" class="float-options-container flex flex-wrap flex-row gap-2 md:gap-3" style="display: none;">
                     <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="none" data-label="None">None</button>
-                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="subtle" data-label="Subtle" title="Subtle" style="box-shadow: 0 8px 14px rgba(0,0,0,0.25);"></button>
-                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="medium" data-label="Medium" title="Medium" style="box-shadow: 0 12px 22px rgba(0,0,0,0.35);"></button>
-                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="high" data-label="High" title="High" style="box-shadow: 0 18px 28px rgba(0,0,0,0.45);"></button>
-                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="long-soft" data-label="Long Soft" title="Long Soft" style="box-shadow: 10px 22px 32px rgba(0,0,0,0.3);"></button>
-                    <button type="button" class="float-preset flex items-center justify-center w-16 h-15 md:w-16 md:h-15 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" data-label="Custom" style="background-color: #bbb;">
-                    <i class="fa-solid fa-palette text-sm md:text-base"></i>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="subtle" data-label="Subtle" title="Subtle" style="box-shadow: 0 8px 14px rgba(0,0,0,0.25);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 12px;"></i>
+                    </button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="medium" data-label="Medium" title="Medium" style="box-shadow: 0 12px 22px rgba(0,0,0,0.35);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 12px;"></i>
+                    </button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="high" data-label="High" title="High" style="box-shadow: 0 18px 28px rgba(0,0,0,0.45);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 12px;"></i>
+                    </button>
+                    <button type="button" class="float-preset w-16 h-15 md:w-16 md:h-15 rounded-lg border border-white/10" data-key="long-soft" data-label="Long Soft" title="Long Soft" style="box-shadow: 10px 22px 32px rgba(0,0,0,0.3);" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 12px;"></i>
+                    </button>
+                    <button type="button" class="float-preset flex items-center justify-center w-16 h-15 md:w-16 md:h-15 rounded-lg border border-dashed border-[#3b3b54] text-gray-500 hover:bg-[#282839] hover:text-white transition-colors" data-key="custom" data-label="Custom" style="background-color: #bbb;" data-protected="true">
+                        <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 2px; right: 2px; font-size: 12px;"></i>
+                        <i class="fa-solid fa-palette text-sm md:text-base"></i>
                     </button>
                 </div>
 
@@ -430,28 +465,38 @@
                 </div>
             </div>
 
-            <div class="section">
-                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Transform</h3>
+            <div class="section" style="position: relative;">
+                {% if not user.is_authenticated %}
+                <div style="background: transparent;position:absolute;top: 0;left: 0;bottom: 0;right: 0;z-index: 100; cursor: pointer;" onclick="window.location.href='{% url 'signup' %}'" title="Login to access premium features"></div>
+                {% endif %}
+                <h3 class="text-lg md:text-xl font-bold mb-3 md:mb-4" style="position: relative; display: inline-block;">
+                    Transform
+                    <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: -2px; right: -24px; font-size: 16px;"></i>
+                </h3>
 
                 <!-- Presets Grid (3D & Skew combined visually) -->
                 <div class="grid grid-cols-4 gap-3 md:gap-4 mb-6">
                     <!-- 3D Presets -->
-                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
-                    data-transform='{"rotateX": 10, "rotateY": -25, "translateZ": -10, "perspective": 100, "scale": 100}'>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors relative"
+                    data-transform='{"rotateX": 10, "rotateY": -25, "translateZ": -10, "perspective": 100, "scale": 100}' data-protected="true">
                     <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded" style="transform: perspective(100px) rotateY(-25deg) rotateX(10deg) translateZ(-10px);"></div>
+                    <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 4px; right: 4px; font-size: 12px;"></i>
                     </button>
-                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
-                    data-transform='{"rotateX": -10, "rotateY": 25, "translateZ": -10, "perspective": 100, "scale": 100}'>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors relative"
+                    data-transform='{"rotateX": -10, "rotateY": 25, "translateZ": -10, "perspective": 100, "scale": 100}' data-protected="true">
                     <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded" style="transform: perspective(100px) rotateY(25deg) rotateX(-10deg) translateZ(-10px);"></div>
+                    <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 4px; right: 4px; font-size: 12px;"></i>
                     </button>
                     <!-- Skew Presets -->
-                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
-                    data-transform='{"skewX": 15, "skewY": 0}'>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors relative"
+                    data-transform='{"skewX": 15, "skewY": 0}' data-protected="true">
                     <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded transform skew-x-15"></div>
+                    <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 4px; right: 4px; font-size: 12px;"></i>
                     </button>
-                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors"
-                    data-transform='{"skewX": 0, "skewY": 8}'>
+                    <button class="transform-preset w-[55px] h-[55px] md:w-[65px] md:h-[65px] flex items-center justify-center bg-[#282839] rounded-lg border border-[#3b3b54] hover:border-[var(--primary-color)] transition-colors relative"
+                    data-transform='{"skewX": 0, "skewY": 8}' data-protected="true">
                     <div class="w-7 h-7 md:w-9 md:h-9 bg-gray-400 rounded transform skew-y-8"></div>
+                    <i class="fa-solid fa-crown" style="color: #ffd700; position: absolute; top: 4px; right: 4px; font-size: 12px;"></i>
                     </button>
                 </div>
 
@@ -496,9 +541,10 @@
 
                 <!-- Advanced 3D Controls (Hidden by Default) -->
                 <div class="pt-4">
-                    <button id="toggle-advanced-transform" class="text-[#9d9db9] text-sm hover:text-white flex items-center gap-1">
+                    <button id="toggle-advanced-transform" class="text-[#9d9db9] text-sm hover:text-white flex items-center gap-1" data-protected="true">
                     <i class="fa-solid fa-chevron-down text-xs"></i>
                     Advanced 3D
+                    <i class="fa-solid fa-crown" style="color: #ffd700; margin-left: 4px;"></i>
                     </button>
                     <div id="advanced-transform-controls" class="space-y-4 pt-4 border-t border-[#282839]" style="display: none;">
 

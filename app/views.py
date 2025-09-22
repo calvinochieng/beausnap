@@ -23,7 +23,7 @@ def signin(request):
 
             user = form.get_user()
             login(request, user)
-            next_url = request.POST.get('next') or request.GET.get('next') or reverse('index') + '#pricing'
+            next_url = request.POST.get('next') or request.GET.get('next') or reverse('editor')
             return redirect(next_url)
     else:
         form = CustomAuthenticationForm(request)
@@ -36,7 +36,7 @@ def signup(request):
             user = form.save()
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return redirect(reverse('index') + '#pricing')
+            return redirect(reverse('editor'))
     else:
         form = CustomUserCreationForm()
     return render(request, 'auth/signup.html', {'form': form})
@@ -46,16 +46,42 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-@login_required
 def editor(request):
     from .utils import get_user_access_status
-    access_status = get_user_access_status(request.user)
+    from datetime import datetime, timedelta
+
+    # Handle anonymous users - give them trial access
+    if request.user.is_authenticated:
+        access_status = get_user_access_status(request.user)
+        user = request.user
+    else:
+        # Anonymous users get trial access - track trial start in session
+        trial_start_key = 'anonymous_trial_start'
+        if trial_start_key not in request.session:
+            request.session[trial_start_key] = datetime.now().isoformat()
+            request.session.set_expiry(60 * 60 * 24 * 14)  # 14 days
+
+        trial_start = datetime.fromisoformat(request.session[trial_start_key])
+        trial_end = trial_start + timedelta(days=14)
+        days_remaining = max(0, (trial_end - datetime.now()).days)
+        trial_expired = datetime.now() > trial_end
+
+        access_status = {
+            'has_access': not trial_expired,
+            'is_premium': False,
+            'in_trial': not trial_expired,
+            'trial_expired': trial_expired,
+            'days_remaining': days_remaining,
+            'trial_end_date': trial_end,
+            'is_admin': False
+        }
+        user = None
 
     # Redirect to upgrade page if trial expired (but not for admins)
     if access_status['trial_expired'] and not access_status.get('is_admin', False):
         return redirect('upgrade')
 
-    return render(request, 'app/editor.html', {'access_status': access_status})
+    return render(request, 'app/editor.html', {'access_status': access_status, 'user': user})
 
 @login_required
 def upgrade(request):
