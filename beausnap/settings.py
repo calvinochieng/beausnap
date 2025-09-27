@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='your-secret-key-change-this-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True or config('DJANGO_DEBUG', default=False, cast=bool)
+DEBUG =  config('DJANGO_DEBUG', default=False, cast=bool)
 
 # Production flag for explicit production settings
 PRODUCTION = config('PRODUCTION', default=not DEBUG, cast=bool)
