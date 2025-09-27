@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='your-secret-key-change-this-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+DEBUG = True or config('DJANGO_DEBUG', default=False, cast=bool)
 
 # Production flag for explicit production settings
 PRODUCTION = config('PRODUCTION', default=not DEBUG, cast=bool)
@@ -64,22 +64,15 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = [
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'editor'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/signin/'
 
-# Payment Settings (Gumroad)
-GUMROAD_SECRET = config('GUMROAD_SECRET', default='')
-GUMROAD_SELLER_ID = config('GUMROAD_SELLER_ID', default='')
-GUMROAD_ACCESS_TOKEN = config('GUMROAD_ACCESS_TOKEN', default='')
-GUMROAD_APPLICATION_ID = config('GUMROAD_APPLICATION_ID', default='')
-GUMROAD_APPLICATION_SECRET = config('GUMROAD_APPLICATION_SECRET', default='')
+# Lemon Squeezy Settings
+LEMONSQUEEZY_API_KEY = config("LEMONSQUEEZY_API_KEY")
+LEMONSQUEEZY_STORE_ID = config("LEMONSQUEEZY_STORE_ID")
+LEMONSQUEEZY_WEBHOOK_SECRET = config("LEMONSQUEEZY_WEBHOOK_SECRET")
 
-# Legacy Payment Settings (for future migration)
-# PAYMENT_ACCESS_TOKEN = config('PAYMENT_API_KEY')
-# PAYMENT_WEBHOOK_SECRET = config('PAYMENT_WEBHOOK_SECRET', '')
-# PAYMENT_ORGANIZATION_ID = config('PAYMENT_ORGANIZATION_ID', '')
-
-# Payment Products
-PAYMENT_PRODUCTS = {
-    'one_time': config('ONE_TIME_PRODUCT_ID'),
-    'yearly': config('YEARLY_PRODUCT_ID'),
+# Lemon Squeezy Products (using variant IDs)
+LEMONSQUEEZY_PRODUCTS = {
+    'one_time': config('LEMONSQUEEZY_LIFETIME_PRODUCT_ID'),
+    'yearly': config('LEMONSQUEEZY_YEARLY_PRODUCT_ID'),
 }
 
 LOGIN_URL = '/signin/'

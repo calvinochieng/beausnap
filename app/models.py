@@ -57,13 +57,17 @@ class License(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="licenses", null=True, blank=True)
-    gumroad_purchase_id = models.CharField(max_length=100, unique=True)
+    purchase_id = models.CharField(max_length=100, unique=True)  # Generic for any payment provider
     license_key = models.CharField(max_length=200, unique=True)
-    buyer_email = models.EmailField()  # Gumroad's email
+    buyer_email = models.EmailField()
     plan_type = models.CharField(max_length=20, choices=PLAN_CHOICES)
     active = models.BooleanField(default=True)
+    is_pro = models.BooleanField(default=True)  # Grants pro access
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(null=True, blank=True)  # only for yearly
+    # Lemon Squeezy specific fields
+    lemonsqueezy_order_id = models.CharField(max_length=100, blank=True, null=True)
+    lemonsqueezy_subscription_id = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.plan_type} | {self.buyer_email}"

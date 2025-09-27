@@ -102,7 +102,7 @@
           <div class="text-center mb-6">
             <h3 class="text-3xl font-bold mb-2">Yearly</h3>
             <div class="flex items-baseline justify-center gap-1 mb-2">
-              <span class="text-5xl font-bold">$29</span>
+              <span class="text-5xl font-bold"><sup class="text-red-500 line-through">$29</sup> $19</span>
               <span class="text-lg text-gray-400">/year</span>
             </div>
             <p class="text-gray-400">Cancel anytime, returns to free plan</p>
@@ -129,7 +129,7 @@
               <span>Priority support</span>
             </li>
           </ul>
-          <a href="https://gum.co/BEAUSNAP_YEARLY?wanted=true" class="block w-full text-center py-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-bold transition text-lg gumroad-button">
+          <a href="{% url 'checkout_yearly' %}" class="block w-full text-center py-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-bold transition text-lg">
             Get Yearly Access
           </a>
         </div>
@@ -140,7 +140,7 @@
           <div class="text-center mb-6">
             <h3 class="text-3xl font-bold mb-2">Lifetime</h3>
             <div class="flex items-baseline justify-center gap-1 mb-2">
-              <span class="text-5xl font-bold">$49</span>
+              <span class="text-5xl font-bold"><sup class="text-red-500 line-through">$49</sup> $29</span>
               <span class="text-lg text-gray-400">one-time</span>
             </div>
             <p class="text-gray-400">Pay once, use forever</p>
@@ -167,7 +167,7 @@
               <span>Lifetime support</span>
             </li>
           </ul>
-          <a href="https://gum.co/BEAUSNAP_LIFETIME?wanted=true" class="block w-full text-center py-4 bg-[var(--primary-color)] hover:bg-blue-700 text-white rounded-lg font-bold transition text-lg gumroad-button">
+          <a href="{% url 'checkout_one_time' %}" class="block w-full text-center py-4 bg-[var(--primary-color)] hover:bg-blue-700 text-white rounded-lg font-bold transition text-lg">
             Get Lifetime Access
           </a>
         </div>
@@ -224,6 +224,5 @@
     </div>
   </footer>
 
-  <script src="https://gumroad.com/js/gumroad.js"></script>
 </body>
 </html>

@@ -14,8 +14,8 @@ urlpatterns = [
     path('checkout/yearly/', checkout_yearly, name='checkout_yearly'),
     path('checkout/success/', checkout_success, name='checkout_success'),
     path('checkout/cancel/', checkout_cancel, name='checkout_cancel'),
-    # Gumroad licensing URLs
-    path('api/gumroad/webhook/', gumroad_webhook, name='gumroad_webhook'),
+    # Lemon Squeezy webhook
+    path('webhook/lemon/', lemon_webhook, name='lemon_webhook'),
     path('redeem/', redeem_license, name='redeem_license'),
     path('my-purchases/', my_purchases, name='my_purchases'),
     # Legacy webhook (keep for now)

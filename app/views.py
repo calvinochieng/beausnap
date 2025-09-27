@@ -1,11 +1,18 @@
 import os
-from django.shortcuts import render, redirect
+import requests
+import json
+import hmac
+import hashlib
+import base64
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout, get_user_model
+from django.contrib import messages
 from django.http import JsonResponse, HttpResponseForbidden
 from django.utils import timezone
 from django.urls import reverse
 from app.forms import CustomUserCreationForm, CustomAuthenticationForm
+from django.conf import settings
 
 def index(request):
     return render(request, 'index.html')
@@ -92,26 +99,111 @@ def upgrade(request):
 @login_required
 def checkout_one_time(request):
     """
-    Redirect to Gumroad lifetime purchase.
+    Create Lemon Squeezy checkout for lifetime purchase.
     """
-    if request.method == "POST":
-        # Redirect to Gumroad lifetime purchase
-        gumroad_url = "https://gum.co/BEAUSNAP_LIFETIME?wanted=true"
-        return redirect(gumroad_url)
+    if not settings.LEMONSQUEEZY_API_KEY or not settings.LEMONSQUEEZY_PRODUCTS.get('one_time'):
+        messages.error(request, "Payment configuration error. Please contact support.")
+        return redirect('upgrade')
 
-    return render(request, 'checkout.html', {'plan': 'one-time', 'user': request.user})
+    url = "https://api.lemonsqueezy.com/v1/checkouts"
+    headers = {
+        "Authorization": f"Bearer {settings.LEMONSQUEEZY_API_KEY}",
+        "Content-Type": "application/vnd.api+json",
+    }
+
+    # Try with variant_id first (most common)
+    payload = {
+        "data": {
+            "type": "checkouts",
+            "attributes": {
+                "custom": {"user_id": request.user.id},
+                "variant_id": int(settings.LEMONSQUEEZY_PRODUCTS['one_time']),
+                "redirect_url": request.build_absolute_uri(reverse('checkout_success')),
+            }
+        }
+    }
+
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+        checkout_url = data['data']['attributes']['url']
+        return redirect(checkout_url)
+    except requests.RequestException as e:
+        # If variant_id fails, try with product_id
+        try:
+            payload_fallback = {
+                "data": {
+                    "type": "checkouts",
+                    "attributes": {
+                        "custom": {"user_id": request.user.id},
+                        "product_id": int(settings.LEMONSQUEEZY_PRODUCTS['one_time']),
+                        "redirect_url": request.build_absolute_uri(reverse('checkout_success')),
+                    }
+                }
+            }
+            response = requests.post(url, json=payload_fallback, headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            checkout_url = data['data']['attributes']['url']
+            return redirect(checkout_url)
+        except requests.RequestException:
+            messages.error(request, "Failed to create checkout. Please check your payment configuration.")
+            return redirect('upgrade')
 
 @login_required
 def checkout_yearly(request):
     """
-    Redirect to Gumroad yearly subscription.
+    Create Lemon Squeezy checkout for yearly subscription.
     """
-    if request.method == "POST":
-        # Redirect to Gumroad yearly purchase
-        gumroad_url = "https://gum.co/BEAUSNAP_YEARLY?wanted=true"
-        return redirect(gumroad_url)
+    if not settings.LEMONSQUEEZY_API_KEY or not settings.LEMONSQUEEZY_PRODUCTS.get('yearly'):
+        messages.error(request, "Payment configuration error. Please contact support.")
+        return redirect('upgrade')
 
-    return render(request, 'checkout.html', {'plan': 'yearly', 'user': request.user})
+    url = "https://api.lemonsqueezy.com/v1/checkouts"
+    headers = {
+        "Authorization": f"Bearer {settings.LEMONSQUEEZY_API_KEY}",
+        "Content-Type": "application/vnd.api+json",
+    }
+
+    # Try with variant_id first (most common)
+    payload = {
+        "data": {
+            "type": "checkouts",
+            "attributes": {
+                "custom": {"user_id": request.user.id},
+                "variant_id": int(settings.LEMONSQUEEZY_PRODUCTS['yearly']),
+                "redirect_url": request.build_absolute_uri(reverse('checkout_success')),
+            }
+        }
+    }
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+        checkout_url = data['data']['attributes']['url']
+        return redirect(checkout_url)
+    except requests.RequestException as e:
+        # If variant_id fails, try with product_id
+        try:
+            payload_fallback = {
+                "data": {
+                    "type": "checkouts",
+                    "attributes": {
+                        "custom": {"user_id": request.user.id},
+                        "product_id": int(settings.LEMONSQUEEZY_PRODUCTS['yearly']),
+                        "redirect_url": request.build_absolute_uri(reverse('checkout_success')),
+                    }
+                }
+            }
+            response = requests.post(url, json=payload_fallback, headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            checkout_url = data['data']['attributes']['url']
+            return redirect(checkout_url)
+        except requests.RequestException:
+            messages.error(request, "Failed to create checkout. Please check your payment configuration.")
+            return redirect('upgrade')
 
 @login_required
 def checkout_success(request):
@@ -162,67 +254,102 @@ def refund(request):
 
 
 from django.views.decorators.csrf import csrf_exempt
-import json
-import hmac
-import hashlib
 from django.utils.dateparse import parse_datetime
 from .models import License
 
-@csrf_exempt
-def gumroad_webhook(request):
+# Utility function to help debug Lemon Squeezy configuration
+def debug_lemon_squeezy_config():
     """
-    Handle Gumroad webhook for license purchases.
+    Debug function to check Lemon Squeezy variants and products.
+    Call this in Django shell to see available variants.
+    """
+    if not settings.LEMONSQUEEZY_API_KEY:
+        return "No API key configured"
 
-    Configure this webhook URL in Gumroad:
-    https://beausn.app/api/gumroad/webhook/
+    headers = {
+        "Authorization": f"Bearer {settings.LEMONSQUEEZY_API_KEY}",
+        "Accept": "application/vnd.api+json",
+    }
+
+    # Try to list variants
+    try:
+        response = requests.get(f"https://api.lemonsqueezy.com/v1/variants", headers=headers, timeout=30)
+        if response.status_code == 200:
+            variants = response.json()
+            return f"Available variants: {[v['id'] for v in variants.get('data', [])]}"
+        else:
+            return f"Failed to fetch variants: {response.status_code} - {response.text}"
+    except Exception as e:
+        return f"Error fetching variants: {e}"
+
+@csrf_exempt
+def lemon_webhook(request):
+    """
+    Handle Lemon Squeezy webhook for purchases and subscriptions.
     """
     if request.method != "POST":
-        return JsonResponse({"error": "method not allowed"}, status=405)
+        return JsonResponse({"error": "Invalid method"}, status=405)
 
-    payload = request.body
-    signature = request.headers.get("X-Gumroad-Signature")
+    signature = request.headers.get("X-Signature")
+    computed_sig = hmac.new(
+        settings.LEMONSQUEEZY_WEBHOOK_SECRET.encode(),
+        request.body,
+        hashlib.sha256
+    ).hexdigest()
 
-    # Verify Gumroad webhook signature
-    from django.conf import settings
-    expected = hmac.new(settings.GUMROAD_SECRET.encode(), payload, hashlib.sha256).hexdigest()
-    if signature != expected:
-        return JsonResponse({"error": "invalid signature"}, status=400)
+    if not hmac.compare_digest(signature, computed_sig):
+        return JsonResponse({"error": "Invalid signature"}, status=400)
 
-    data = request.POST
-    buyer_email = data.get("email")
-    license_key = data.get("license_key")
-    purchase_id = data.get("purchase_id")
-    product_name = data.get("product_name")
-    subscription_end_date = data.get("subscription_end_date")
+    payload = json.loads(request.body)
+    event_name = payload.get("meta", {}).get("event_name")
+    data = payload.get("data", {})
+    attributes = data.get("attributes", {})
+    custom = attributes.get("custom", {})
 
-    plan_type = "lifetime" if "Lifetime" in product_name else "yearly"
+    user_id = custom.get("user_id")
+    if not user_id:
+        return JsonResponse({"status": "no user_id"})
 
-    # Do NOT override login email → store buyer email in License
-    user = request.user if request.user.is_authenticated else None
+    user = get_object_or_404(get_user_model(), id=user_id)
 
-    license, created = License.objects.update_or_create(
-        gumroad_purchase_id=purchase_id,
-        defaults={
-            "user": None,   # will try to associate below
-            "license_key": license_key,
-            "buyer_email": buyer_email,
-            "plan_type": plan_type,
-            "active": True,
-            "expires_at": parse_datetime(subscription_end_date) if subscription_end_date else None,
-        }
-    )
-    
-    # Auto-associate license to user if email matches an existing account
-    if buyer_email:
-        try:
-            matching_user = get_user_model().objects.get(email=buyer_email)
-            license.user = matching_user
-            license.save()
-        except get_user_model().DoesNotExist:
-            pass  # License remains unassociated until manual redeem
-    
-    # get all the data for debu
-    print(data)
+    if event_name == "order_created":
+        # Create lifetime license
+        License.objects.get_or_create(
+            lemonsqueezy_order_id=str(data['id']),
+            defaults={
+                'user': user,
+                'purchase_id': str(data['id']),
+                'license_key': f"LS-{data['id']}",
+                'buyer_email': user.email,
+                'plan_type': "lifetime",
+                'active': True,
+                'is_pro': True,
+            }
+        )
+
+    elif event_name == "subscription_created":
+        # Create subscription license
+        License.objects.get_or_create(
+            lemonsqueezy_subscription_id=str(data['id']),
+            defaults={
+                'user': user,
+                'purchase_id': str(data['id']),
+                'license_key': f"LS-SUB-{data['id']}",
+                'buyer_email': user.email,
+                'plan_type': "yearly",
+                'active': True,
+                'is_pro': True,
+                'expires_at': parse_datetime(attributes.get("ends_at")),
+            }
+        )
+
+    elif event_name == "subscription_cancelled":
+        license_obj = License.objects.filter(lemonsqueezy_subscription_id=str(data['id'])).first()
+        if license_obj:
+            license_obj.active = False
+            license_obj.save()
+
+    print(f"Webhook received: {event_name}")
     return JsonResponse({"status": "ok"})
 
 @csrf_exempt
